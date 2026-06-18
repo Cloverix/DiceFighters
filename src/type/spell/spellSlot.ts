@@ -29,6 +29,7 @@ export function matchesDiceSlot(spellSlotOption: SpellSlot, diceSlot: number): b
     }
 }
 
+//Gives formatted representation of SpellSlotOption
 export function strSpellSlotOption(spellSlotOption: SpellSlot): string {
     switch (spellSlotOption.kind) {
         case 'any': return 'any';

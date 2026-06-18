@@ -1,29 +1,53 @@
-import type {Sprite} from "../../util/type/Sprite.ts";
-import type {SpellSlot} from "../../util/function/spellSlot.ts";
-import type {GameState} from "../gameState/GameState.ts";
-import type {Effect} from "../effect/Effect.ts";
+import type {Sprite} from "../../assets/sprite/Sprite.ts";
+import type {SpellSlot} from "./spellSlot.ts";
+import type {Target, GameState} from "../gameState/GameState.ts";
+import type {EffectReference} from "../effect/Effect.ts";
+import type {Creature} from "../creature/Creature.ts";
+import type {Dice} from "../dice/Dice.ts";
 
 export interface Spell {
     id: number;
     name: string;
     desc: string;
     spellSlot: SpellSlot;
-    spellEffect: SpellEffect;
+    spellAction: SpellAction;
     sprite: Sprite;
 }
 
-export type SpellEffect = (spellContext: SpellContext) => SpellResult;
+export type SpellAction = (spellContext: SpellContext) => SpellResult;
 
 export interface SpellContext {
-    caster: 'player' | 'enemy';
+    casterCreature: Creature;
+    dice: Dice;                 //Dice on which the spell is equipped
     diceValue: number;
     gameState: GameState
 }
 
 export interface SpellResult {
-    damageDealt: number;
-    healing: number;
-    applyToCaster: Effect[];
-    applyToEnemy: Effect[];
+    caster: Target;
+    damage?: number;
+    hitTimes?: number;
+    healing?: number;
+    applyToCaster?: EffectReference[];
+    removeFromCaster?: EffectReference[],
+    applyToOpponent?: EffectReference[];
+    removeFromOpponent?: EffectReference[];
+    customSpellActions?: CustomSpellAction[];
     logMessage: string;
+}
+
+export type CustomSpellAction =
+    | {
+    type: 'castSpell',
+    spellName: string,
+    caster: Target,
+    dice: Dice,
+    diceValue: number
+} | {
+    type: 'changeEquippedSlot',
+    changeSubject: Target,
+    currentDiceIndex: number,
+    currentSlot: number,
+    targetDiceIndex: number,
+    targetSlot: number
 }

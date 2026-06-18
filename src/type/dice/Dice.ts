@@ -1,9 +1,9 @@
 import type {Spell} from "../spell/Spell.ts";
-import type {FixedArray} from "../../util/class/FixedArray.ts";
-import type {Sprite} from "../../util/type/Sprite.ts";
+import type {FixedMap} from "../../util/class/FixedMap.ts";
+import type {Sprite} from "../../assets/sprite/Sprite.ts";
 
 export interface Dice {
     edgeCount: number;
-    equippedSpells: FixedArray<Spell>;
+    equippedSpells: FixedMap<Spell>;        //Null slots are considered Strikes
     sprite: Sprite;
 }
