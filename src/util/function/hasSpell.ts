@@ -4,7 +4,7 @@ import type {Dice} from "../../type/dice/Dice.ts";
 
 //Checks if creature has given spell equipped on any of its dices
 export function hasSpell(creature: Creature, spellName: string): boolean {
-    const dices: Dice[] = creature.dices.values;
+    const dices: Dice[] = creature.dices;
 
     for (const dice of dices) {
         const equippedSpells: Spell[] = dice.equippedSpells.values;

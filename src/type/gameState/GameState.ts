@@ -1,6 +1,6 @@
 import type {Player} from "../creature/Player.ts";
 import type {Enemy} from "../creature/Enemy.ts";
-import type {EffectReference} from "../effect/Effect.ts";
+import type {EffectReference, EffectTemplate} from "../effect/Effect.ts";
 import {findEffect} from "../../util/function/findEffect.ts";
 import {effectList} from "../effect/effectList.ts";
 import type {CustomSpellAction, Spell, SpellContext} from "../spell/Spell.ts";
@@ -9,8 +9,9 @@ import {spellList} from "../spell/spellList.ts";
 import {getEquippedSpell} from "../../util/function/getEquippedSpell.ts";
 import {isSlotEmpty} from "../dice/isSlotEmpty.ts";
 import {equipSpell} from "../dice/equipSpell.ts";
-import {cloneDice} from "../dice/cloneDice.ts";
 import type {Creature} from "../creature/Creature.ts";
+import type {Dice} from "../dice/Dice.ts";
+import {triggerEffects} from "../../logic/triggerEffects.ts";
 
 export interface GameState {
     player: Player,
@@ -57,35 +58,44 @@ export class GameStateBuilder {
 
         effects.forEach(effectRef => {
             const effectName = effectRef.effectName;
-            const addStacks = effectRef.stackCount;
+            const addStacks = effectRef.stackCount ?? 1;
             const effectIndex = findEffect(effectName, updatedEffects);
+
             if (effectIndex === -1) {
-                updatedEffects.push({effectTemplate: effectList[effectName], stackCount: addStacks});
+                const effectTemplate: EffectTemplate = effectList[effectName];
+                updatedEffects.push({effectTemplate: effectTemplate, stackCount: addStacks});
             } else {
-                const oldEffect = updatedEffects[effectIndex];
-                updatedEffects[effectIndex] = {...oldEffect, stackCount: oldEffect.stackCount + addStacks}
+                const isSingle: boolean = effectList[effectName].single;
+                if (!isSingle) {
+                    const oldEffect = updatedEffects[effectIndex];
+                    updatedEffects[effectIndex] = {...oldEffect, stackCount: oldEffect.stackCount + addStacks}
+                }
             }
         })
 
-        const newState = {
+        let newState = {
             ...oldState,
             [target]: {...targetCreature, effects: updatedEffects}
         }
+
+        newState = triggerEffects(target, ['OnApply'], newState);
 
         return new GameStateBuilder(newState);
     }
 
     removeEffects(effects: EffectReference[], target: Target): GameStateBuilder {
         const oldState = this.state;
-        const targetCreature = oldState[target];
+        const targetCreature: Player | Enemy = oldState[target];
         let newEffects = [...targetCreature.effects];
 
         effects.forEach(effectRef => {
             const effectName = effectRef.effectName;
-            const removeStacks: number = effectRef.stackCount;
+            const removeStacks: number = effectRef.stackCount ?? Infinity;
             const effectIndex = findEffect(effectName, newEffects);
+
             if (effectIndex !== -1) {
                 const currentStacks = newEffects[effectIndex].stackCount;
+                //If currentStacks <= removeStacks, remove an effect
                 if (currentStacks <= removeStacks) {
                     newEffects = newEffects.filter((_, index) => index !== effectIndex);
                 }
@@ -122,8 +132,8 @@ export class GameStateBuilder {
             case 'changeEquippedSlot': {
                 const { changeSubject, currentDiceIndex, currentSlot, targetDiceIndex, targetSlot } = action;
                 const creature: Player | Enemy = changeSubject === 'player' ? this.state.player : this.state.enemy;
-                const currentDice = cloneDice(creature.dices[currentDiceIndex]);
-                const targetDice = cloneDice(creature.dices[targetDiceIndex]);
+                const currentDice = creature.dices[currentDiceIndex];
+                const targetDice = creature.dices[targetDiceIndex];
 
                 const spellToMove = getEquippedSpell(currentDice, currentSlot);
                 const successLog = `${spellToMove.name} moved to slot ${targetSlot}!`;
@@ -133,17 +143,23 @@ export class GameStateBuilder {
                 if (!isTargetSlotEmpty) {
                     return this.addLog(failureLog);
                 }
-                equipSpell(null, currentDice, currentSlot);
-                equipSpell(spellToMove, targetDice, targetSlot);
 
-                const newDices = [...creature.dices];
-                newDices[currentDiceIndex] = currentDice;
-                newDices[targetDiceIndex] = targetDice;
-
-                const newCreature: Creature = {
-                    ...creature,
-                    dices: newDices
+                const tempDice: Dice | null = equipSpell(null, creature, currentDice, currentSlot);
+                if (tempDice === null) {
+                    return this.addLog(failureLog);
                 }
+                const tempDices: Dice[] = [...creature.dices];
+                tempDices[currentDiceIndex] = tempDice;
+                const tempCreature: Creature = {...creature, dices: tempDices};
+
+                const newDice: Dice | null = equipSpell(spellToMove, tempCreature, targetDice, targetSlot);
+                if (newDice === null) {
+                    return this.addLog(failureLog);
+                }
+                const newDices: Dice[] = [...tempDices];
+                newDices[targetDiceIndex] = newDice;
+                const newCreature: Creature = {...tempCreature, dices: newDices};
+
                 const newState: GameState = {
                     ...this.state,
                     [changeSubject]: newCreature

@@ -8,8 +8,8 @@ export const effectList: Record<string, EffectTemplate> = {
         id: 1,
         name: EffectName.burn,
         desc: EffectDesc.burn,
-        effectAction: burnAction,
-        triggerOn: 'StartTurn',
+        effectActions: {'StartTurn': burnAction},
+        single: false,
         icon: ""    //TODO: add sprite
     },
 
@@ -17,8 +17,8 @@ export const effectList: Record<string, EffectTemplate> = {
         id: 2,
         name: EffectName.stun,
         desc: EffectDesc.stun,
-        effectAction: stunAction,
-        triggerOn: 'StartTurn',
+        effectActions: {'StartTurn': stunAction},
+        single: false,
         icon: ""    //TODO: add sprite
     },
 
@@ -26,8 +26,8 @@ export const effectList: Record<string, EffectTemplate> = {
         id: 3,
         name: EffectName.wet,
         desc: EffectDesc.wet,
-        effectAction: wetAction,
-        triggerOn: 'OnApply',
+        effectActions: {'OnApply': wetAction},
+        single: true,
         icon: ""    //TODO: add sprite
     }
 }

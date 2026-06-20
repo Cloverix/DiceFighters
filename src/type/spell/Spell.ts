@@ -9,10 +9,13 @@ export interface Spell {
     id: number;
     name: string;
     desc: string;
+    category?: SpellCategory[];
     spellSlot: SpellSlot;
     spellAction: SpellAction;
     sprite: Sprite;
 }
+
+export type SpellCategory = 'unique' | 'enemyExclusive' | 'playerExclusive'
 
 export type SpellAction = (spellContext: SpellContext) => SpellResult;
 

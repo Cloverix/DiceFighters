@@ -4,9 +4,9 @@ import {findEffect} from "../../util/function/findEffect.ts";
 
 export const burnAction: EffectAction = (effectContext: EffectContext) => {
     let stackCount = effectContext.stackCount;
-    const targetName = effectContext.target.name;
+    const targetName = effectContext.targetCreature.name;
 
-    const target = effectContext.target;
+    const target = effectContext.targetCreature;
     const hasWetEffect = findEffect(EffectName.wet, target.effects) !== -1;
     if (hasWetEffect) {
         stackCount--;
@@ -16,14 +16,14 @@ export const burnAction: EffectAction = (effectContext: EffectContext) => {
         damageDealt: stackCount,
         healing: 0,
         newStackCount: stackCount - 1,
-        removeEffects: [{effectName: EffectName.wet, stackCount: 1}],
+        removeEffects: [{effectName: EffectName.wet}],
         logMessage: `${targetName} took ${stackCount} damage from Burn`
     }
 }
 
 export const stunAction: EffectAction = (effectContext: EffectContext) => {
     const stackCount = effectContext.stackCount;
-    const targetName = effectContext.target.name;
+    const targetName = effectContext.targetCreature.name;
     return {
         damageDealt: 0,
         healing: 0,
@@ -33,12 +33,11 @@ export const stunAction: EffectAction = (effectContext: EffectContext) => {
 }
 
 export const wetAction: EffectAction = (effectContext: EffectContext) => {
-    const targetName = effectContext.target.name;
+    const targetName = effectContext.targetCreature.name;
     return {
         damageDealt: 0,
         healing: 0,
-        newStackCount: 1,
-        removeEffects: [{effectName: EffectName.burn, stackCount: 999}],
+        removeEffects: [{effectName: EffectName.burn}],
         logMessage: `${targetName} becomes Wet`
     }
 }

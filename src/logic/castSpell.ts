@@ -2,6 +2,7 @@ import type {Spell, SpellContext} from "../type/spell/Spell.ts";
 import type {GameState} from "../type/gameState/GameState.ts";
 import {applySpellResult} from "./applySpellResult.ts";
 
+//Called whenever a spell is being cast
 export function castSpell(spell: Spell, spellContext: SpellContext): GameState {
     const spellAction = spell.spellAction;
     const spellResult = spellAction(spellContext);

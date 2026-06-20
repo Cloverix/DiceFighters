@@ -11,3 +11,4 @@ export interface Creature {
     dices: Dice[];
     sprite: Sprite;
 }
+

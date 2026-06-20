@@ -64,6 +64,7 @@ export const spellList: Record<string, Spell> = {
         id: 6,
         name: SpellName.leftHook,
         desc: SpellDesc.leftHook,
+        category: ['unique'],
         spellSlot: SpellSlotOptions.oddSlot(),
         spellAction: leftHookAction,
         sprite: ""      //TODO: add sprite
@@ -73,6 +74,7 @@ export const spellList: Record<string, Spell> = {
         id: 7,
         name: SpellName.rightHook,
         desc: SpellDesc.rightHook,
+        category: ['unique'],
         spellSlot: SpellSlotOptions.evenSlot(),
         spellAction: rightHookAction,
         sprite: ""      //TODO: add sprite
