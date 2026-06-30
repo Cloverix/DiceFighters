@@ -7,7 +7,7 @@ import {getEquippedSpell} from "../util/function/getEquippedSpell.ts";
 import {castSpell} from "./castSpell.ts";
 import {hasEffect} from "../util/function/hasEffect.ts";
 import {effectList} from "../type/effect/effectList.ts";
-import {EffectName} from "../assets/string/effect/effectName.ts";
+import {effectName} from "../assets/string/effect/effectName.ts";
 import {checkWinCondition} from "./checkWinCondition.ts";
 import {triggerEffects} from "./triggerEffects.ts";
 
@@ -19,7 +19,7 @@ export function takeTurn(gameState: GameState): GameState {
     changedGameState = triggerEffects(changedGameState.currentTurn, ['StartTurn'], changedGameState);
     creature = changedGameState[changedGameState.currentTurn];
 
-    if (hasEffect(creature, effectList[EffectName.stun])) {
+    if (hasEffect(creature, effectList[effectName.stun])) {
         return changedGameState;
     }
 

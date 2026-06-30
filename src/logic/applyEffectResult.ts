@@ -8,12 +8,17 @@ export function applyEffectResult(effectResult: EffectResult, target: Target, ga
     if (effectResult.removeEffects) {
         builder.removeEffects(effectResult.removeEffects, target);
     }
-    builder
-        .applyDamage(effectResult.damageDealt, target)
-        .applyHealing(effectResult.healing, target);
+    if (effectResult.damageDealt) {
+        builder.applyDamage(effectResult.damageDealt, target);
+    }
+    if (effectResult.healing) {
+        builder.applyHealing(effectResult.healing, target);
+    }
     if (effectResult.applyEffects) {
         builder.applyEffects(effectResult.applyEffects, target);
     }
-    builder.addLog(effectResult.logMessage);
+    if (effectResult.logMessage) {
+        builder.addLog(effectResult.logMessage);
+    }
     return builder.build();
 }

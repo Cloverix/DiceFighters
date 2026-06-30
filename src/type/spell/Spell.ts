@@ -28,6 +28,8 @@ export interface SpellContext {
 
 export interface SpellResult {
     caster: Target;
+    casterName: string,
+    diceValue: number,
     damage?: number;
     hitTimes?: number;
     healing?: number;
@@ -36,8 +38,12 @@ export interface SpellResult {
     applyToOpponent?: EffectReference[];
     removeFromOpponent?: EffectReference[];
     customSpellActions?: CustomSpellAction[];
-    logMessage: string;
+    logMessage?: SpellLogMethod
 }
+
+export type SpellLogMethod = {method: 'message', message: string} | {method: 'generator', generator: SpellLogGenerator}
+
+export type SpellLogGenerator = (spellResult: SpellResult, gameState: GameState) => string
 
 export type CustomSpellAction =
     | {
@@ -49,8 +55,8 @@ export type CustomSpellAction =
 } | {
     type: 'changeEquippedSlot',
     changeSubject: Target,
-    currentDiceIndex: number,
-    currentSlot: number,
-    targetDiceIndex: number,
-    targetSlot: number
+    currentDiceIndex: number,           //Index of a dice in dices[] list on which the spell is equipped before moving
+    currentSlot: number,                //Slot on which the spell is equipped before moving (1-indexed)
+    targetDiceIndex: number,            //Index of a dice in dices[] list which the spell will try to move to
+    targetSlot: number                  //Slot which the spell will try to move to (1-indexed)
 }

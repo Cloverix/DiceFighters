@@ -1,4 +1,4 @@
-export const SpellName = {
+export const spellName = {
     strike: 'Strike',
     heavyBlow: 'Heavy blow',
     spark: 'Spark',
@@ -11,5 +11,8 @@ export const SpellName = {
     lightningBolt: 'Lightning bolt',
     ignite: 'Ignite',
     overTheLimits: 'Over the limits',
-    sprinkle: 'Sprinkle'
+    sprinkle: 'Sprinkle',
+    preciseCut: 'Precise cut',
+    scrape: 'Scrape',
+    chaosBolt: 'Chaos bolt'
 }

@@ -25,7 +25,15 @@ export function applySpellResult(spellResult: SpellResult, gameState: GameState)
         }
     }
 
-    gameStateBuilder.addLog(spellResult.logMessage);
+    if (spellResult.logMessage) {
+        if (spellResult.logMessage.method === 'message') {
+            gameStateBuilder.addLog(spellResult.logMessage.message);
+        }
+        else {
+            const message = spellResult.logMessage.generator(spellResult, gameState);
+            gameStateBuilder.addLog(message);
+        }
+    }
 
     return gameStateBuilder.build();
 }

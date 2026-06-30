@@ -1,136 +1,170 @@
-import {SpellName} from "../../assets/string/spell/spellName.ts";
-import {SpellDesc} from "../../assets/string/spell/spellDesc.ts";
+import {spellName} from "../../assets/string/spell/spellName.ts";
+import {spellDesc} from "../../assets/string/spell/spellDesc.ts";
 import {SpellSlotOptions} from "./spellSlot.ts";
 import type {Spell} from "./Spell.ts";
 import heavyBlowImage from "../../assets/sprite/spell/heavy-blow.png";
-import {
-    dualWieldAction,
-    eviscerateAction,
-    healingSalveAction,
-    heavyBlowAction, igniteAction,
-    leftHookAction, lightningBoltAction, overTheLimitsAction,
-    reapAction, rightHookAction,
-    sparkAction, sprinkleAction,
-    strikeAction
-} from "./spellAction.ts";
+import {strikeAction} from "./spellAction/strikeAction.ts";
+import {heavyBlowAction} from "./spellAction/heavyBlowAction.ts";
+import {sparkAction} from "./spellAction/sparkAction.ts";
+import {healingSalveAction} from "./spellAction/healingSalveAction.ts";
+import {reapAction} from "./spellAction/reapAction.ts";
+import {leftHookAction} from "./spellAction/leftHookAction.ts";
+import {rightHookAction} from "./spellAction/rightHookAction.ts";
+import {eviscerateAction} from "./spellAction/eviscerateAction.ts";
+import {lightningBoltAction} from "./spellAction/lightningBoltAction.ts";
+import {igniteAction} from "./spellAction/igniteAction.ts";
+import {overTheLimitsAction} from "./spellAction/overTheLimitsAction.ts";
+import {sprinkleAction} from "./spellAction/sprinkleAction.ts";
+import {preciseCutAction} from "./spellAction/preciseCutAction.ts";
+import {scrapeAction} from "./spellAction/scrapeAction.ts";
+import {chaosBoltAction} from "./spellAction/chaosBoltAction.ts";
+import {dualCastAction} from "./spellAction/dualCastAction.ts";
 
 export const spellList: Record<string, Spell> = {
-    [SpellName.strike]: {
+    [spellName.strike]: {
         id: 1,
-        name: SpellName.strike,
-        desc: SpellDesc.strike,
+        name: spellName.strike,
+        desc: spellDesc.strike,
         spellSlot: SpellSlotOptions.anySlot(),
         spellAction: strikeAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.heavyBlow]: {
+    [spellName.heavyBlow]: {
         id: 2,
-        name: SpellName.heavyBlow,
-        desc: SpellDesc.heavyBlow,
+        name: spellName.heavyBlow,
+        desc: spellDesc.heavyBlow,
         spellSlot: SpellSlotOptions.exactSlot([6]),
         spellAction: heavyBlowAction,
         sprite: heavyBlowImage
     },
 
-    [SpellName.spark]: {
+    [spellName.spark]: {
         id: 3,
-        name: SpellName.spark,
-        desc: SpellDesc.spark,
+        name: spellName.spark,
+        desc: spellDesc.spark,
         spellSlot: SpellSlotOptions.anySlot(),
         spellAction: sparkAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.healingSalve]: {
+    [spellName.healingSalve]: {
         id: 4,
-        name: SpellName.healingSalve,
-        desc: SpellDesc.healingSalve,
+        name: spellName.healingSalve,
+        desc: spellDesc.healingSalve,
         spellSlot: SpellSlotOptions.exactSlot([3, 6, 9 ,12]),
         spellAction: healingSalveAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.reap]: {
+    [spellName.reap]: {
         id: 5,
-        name: SpellName.reap,
-        desc: SpellDesc.reap,
+        name: spellName.reap,
+        desc: spellDesc.reap,
         spellSlot: SpellSlotOptions.anySlot(),
         spellAction: reapAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.leftHook]: {
+    [spellName.leftHook]: {
         id: 6,
-        name: SpellName.leftHook,
-        desc: SpellDesc.leftHook,
+        name: spellName.leftHook,
+        desc: spellDesc.leftHook,
         category: ['unique'],
         spellSlot: SpellSlotOptions.oddSlot(),
         spellAction: leftHookAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.rightHook]: {
+    [spellName.rightHook]: {
         id: 7,
-        name: SpellName.rightHook,
-        desc: SpellDesc.rightHook,
+        name: spellName.rightHook,
+        desc: spellDesc.rightHook,
         category: ['unique'],
         spellSlot: SpellSlotOptions.evenSlot(),
         spellAction: rightHookAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.eviscerate]: {
+    [spellName.eviscerate]: {
         id: 8,
-        name: SpellName.eviscerate,
-        desc: SpellDesc.eviscerate,
+        name: spellName.eviscerate,
+        desc: spellDesc.eviscerate,
         spellSlot: SpellSlotOptions.exactSlot([5]),
         spellAction: eviscerateAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.dualWield]: {
+    [spellName.dualWield]: {
         id: 9,
-        name: SpellName.dualWield,
-        desc: SpellDesc.dualWield,
+        name: spellName.dualWield,
+        desc: spellDesc.dualWield,
         spellSlot: SpellSlotOptions.anySlot(),
-        spellAction: dualWieldAction,
-        sprite: ""      //TODO: add sprite
+        spellAction: dualCastAction,
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.lightningBolt]: {
+    [spellName.lightningBolt]: {
         id: 10,
-        name: SpellName.lightningBolt,
-        desc: SpellDesc.LightningBolt,
+        name: spellName.lightningBolt,
+        desc: spellDesc.LightningBolt,
         spellSlot: SpellSlotOptions.exactSlot([4, 5, 6, 10, 11, 12]),
         spellAction: lightningBoltAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''     //TODO: add sprite
     },
 
-    [SpellName.ignite]: {
+    [spellName.ignite]: {
         id: 11,
-        name: SpellName.ignite,
-        desc: SpellDesc.ignite,
-        spellSlot: SpellSlotOptions.rangeSlot(1, 5),
+        name: spellName.ignite,
+        desc: spellDesc.ignite,
+        spellSlot: SpellSlotOptions.rangesSlot([1, 5]),
         spellAction: igniteAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.overTheLimits]: {
+    [spellName.overTheLimits]: {
         id: 12,
-        name: SpellName.overTheLimits,
-        desc: SpellDesc.overTheLimits,
+        name: spellName.overTheLimits,
+        desc: spellDesc.overTheLimits,
         spellSlot: SpellSlotOptions.anySlot(),
         spellAction: overTheLimitsAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
     },
 
-    [SpellName.sprinkle]: {
+    [spellName.sprinkle]: {
         id: 13,
-        name: SpellName.sprinkle,
-        desc: SpellDesc.sprinkle,
+        name: spellName.sprinkle,
+        desc: spellDesc.sprinkle,
         spellSlot: SpellSlotOptions.exactSlot([1, 2]),
         spellAction: sprinkleAction,
-        sprite: ""      //TODO: add sprite
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.preciseCut]: {
+        id: 14,
+        name: spellName.preciseCut,
+        desc: spellDesc.preciseCut,
+        spellSlot: SpellSlotOptions.evenSlot(),
+        spellAction: preciseCutAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.scrape]: {
+        id: 15,
+        name: spellName.scrape,
+        desc: spellDesc.scrape,
+        category: ['enemyExclusive'],
+        spellSlot: SpellSlotOptions.anySlot(),
+        spellAction: scrapeAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.chaosBolt]: {
+        id: 16,
+        name: spellName.chaosBolt,
+        desc: spellDesc.chaosBolt,
+        spellSlot: SpellSlotOptions.anySlot(),
+        spellAction: chaosBoltAction,
+        sprite: ''      //TODO: add sprite
     }
 }

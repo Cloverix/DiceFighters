@@ -1,6 +1,6 @@
 import type {Sprite} from "../../assets/sprite/Sprite.ts";
 import type {Creature} from "../creature/Creature.ts";
-import type {GameState} from "../gameState/GameState.ts";
+import type {GameState, Target} from "../gameState/GameState.ts";
 
 export interface Effect {
     effectTemplate: EffectTemplate;
@@ -11,10 +11,19 @@ export type EffectTemplate = {
     id: number,
     name: string,
     desc: (stackCount: number) => string,
+    effectType: EffectType[],
     effectActions: Partial<Record<TriggerOn, EffectAction>>,
     single: boolean,                //Determines if only one stack of an effect can be applied
     icon: Sprite
 }
+
+/**Buff - provides useful effects to the creature.
+ * Debuff - provides harmful effects to creature.
+ * Status - acts as a status, altering effects of some abilities and effects. usually doesn't do anything on its own (ex. Wet).
+ * Modifier - modifies characteristics of cast spells, weakening or strengthening them (ex. Strength, Damage reduction)
+ * DOT - deals damage to the creature occasionally.
+ */
+export type EffectType = 'buff' | 'debuff' | 'status' | 'modifier' | 'DOT'
 
 export type TriggerOn = 'StartTurn' | 'EndTurn' | 'OnApply'
 
@@ -27,14 +36,15 @@ export interface EffectContext {
 }
 
 //If stackCount is omitted, one stack of an effect will be applied, all stacks will be removed
-//when calling applyEffect and removeEffect respectively
+// when calling applyEffect and removeEffect respectively
 export type EffectReference = {effectName: string, stackCount?: number};
 
 export interface EffectResult {
-    damageDealt: number;
-    healing: number;
+    target: Target,
+    damageDealt?: number;
+    healing?: number;
     newStackCount?: number;
     applyEffects?: EffectReference[];
     removeEffects?: EffectReference[];
-    logMessage: string;
+    logMessage?: string;
 }
