@@ -1,6 +1,9 @@
 import type {SpellResult} from "../../../type/spell/Spell.ts";
-import type {GameState, Target} from "../../../type/gameState/GameState.ts";
+import {type GameState, type Target} from "../../../type/gameState/GameState.ts";
 import {constructSpellLogMessage} from "../../../util/function/constructSpellLogMessage.ts";
+import {hasEffect} from "../../../util/function/hasEffect.ts";
+import {effectList} from "../../../type/effect/effectList.ts";
+import {effectName} from "../effect/effectName.ts";
 
 export const spellLogGenerator = {
     strike: (spellResult: SpellResult): string => {
@@ -54,5 +57,19 @@ export const spellLogGenerator = {
         meteor: (spellResult: SpellResult): string => {
             return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName,`cast Meteor, dealing ${spellResult.damage} damage and applying Burn 10!`);
         }
+    },
+
+    crash: (spellResult: SpellResult, gameState: GameState): string => {
+        const target: Target = spellResult.caster === 'player' ? 'enemy' : 'player';
+        const targetName = gameState[target];
+        return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName, `crashes ${targetName}'s armor, dealing ${spellResult.damage} damage`);
+    },
+
+    waterSwipe: (spellResult: SpellResult, gameState: GameState): string => {
+        const hasSynergy = hasEffect(gameState[spellResult.caster], effectList[effectName.wet]);
+        const message = hasSynergy
+            ? `swipes enemy, dealing ${spellResult.damage} damage twice!`
+            : `swipes enemy, dealing ${spellResult.damage} damage`;
+        return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName, message);
     }
 }

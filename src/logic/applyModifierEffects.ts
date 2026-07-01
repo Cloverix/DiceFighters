@@ -10,6 +10,7 @@ import {reinforcedArmorModifier} from "./effectModifications/reinforcedArmorModi
 import {brokenArmorModifier} from "./effectModifications/brokenArmorModifier.ts";
 import {defenceUpModifier} from "./effectModifications/defenceUpModifier.ts";
 import {defenceDownModifier} from "./effectModifications/defenceDownModifier.ts";
+import {preparationModifier} from "./effectModifications/preparationModifier.ts";
 
 /**
  * Changes spellResult according to modifier effects present on characters
@@ -45,6 +46,18 @@ export function applyModifierEffects(spellResult: SpellResult, gameState: GameSt
             case effectName.damageDown: {
                 modifiedSpellResult = damageDownModifier(modifiedSpellResult, effect.stackCount);
                 break;
+            }
+            case effectName.preparation: {
+                modifiedSpellResult = preparationModifier(modifiedSpellResult, effect.stackCount);
+                const wasEffectApplied: boolean = modifiedSpellResult.damage !== undefined
+                    || modifiedSpellResult.healing !== undefined;
+
+                if (wasEffectApplied) {
+                    modifiedSpellResult = {
+                        ...modifiedSpellResult,
+                        removeFromCaster: [{effectName: effectName.preparation}]
+                    }
+                }
             }
         }
     })

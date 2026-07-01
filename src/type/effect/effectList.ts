@@ -9,6 +9,7 @@ import {strengthAction} from "./effectAction/strengthAction.ts";
 import {weaknessAction} from "./effectAction/weaknessAction.ts";
 import {reinforcedArmorAction} from "./effectAction/reinforcedArmorAction.ts";
 import {brokenArmorAction} from "./effectAction/brokenArmorAction.ts";
+import {preparationAction} from "./effectAction/preparationAction.ts";
 
 export const effectList: Record<string, EffectTemplate> = {
     [effectName.burn]: {
@@ -127,6 +128,16 @@ export const effectList: Record<string, EffectTemplate> = {
         desc: effectDesc.defenceDown,
         effectType: ['debuff', 'modifier'],
         effectActions: {},
+        single: false,
+        icon: ''    //TODO: add sprite
+    },
+
+    [effectName.preparation]: {
+        id: 13,
+        name: effectName.preparation,
+        desc: effectDesc.preparation,
+        effectType: ['buff', 'modifier'],
+        effectActions: {'OnApply': preparationAction},
         single: false,
         icon: ''    //TODO: add sprite
     }

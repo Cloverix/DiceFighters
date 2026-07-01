@@ -23,5 +23,10 @@ export const spellDesc = {
     //6, 12, 18: deal X * 2 damage, apply 1, 2, 3 stacks of random debuffs respectively
     //19: heal for 1/4 of your max health and cleanse 10 stacks of random debuffs
     //20: deal 40 damage, apply Burn 10
-    chaosBolt: 'Has different effects depending on dice slot. Changes its slot every turn'
+    chaosBolt: 'Has different effects depending on dice slot. Changes its slot every turn',
+    curse: 'Inflict Weakness 2 and Broken armor 2. If equipped slot is 13, inflict 4 stacks of debuffs instead',
+    crash: 'Deal X damage and inflict Broken armor 2',
+    weakeningChains: 'Apply Damage down X/2',
+    waterSwipe: 'Deal X damage. If you are Wet, deal damage twice',
+    prepare: 'Increase damage and healing of your next spell by X'
 }

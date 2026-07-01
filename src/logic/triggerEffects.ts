@@ -1,5 +1,5 @@
 import type {Effect, EffectContext, TriggerOn} from "../type/effect/Effect.ts";
-import {type GameState, type Target} from "../type/gameState/GameState.ts";
+import {type GameState, GameStateBuilder, type Target} from "../type/gameState/GameState.ts";
 import {applyEffectResult} from "./applyEffectResult.ts";
 
 //Trigger all effects on target that match any of passed triggers
@@ -14,13 +14,19 @@ export function triggerEffects(target: Target, triggers: TriggerOn[], gameState:
         if (!currentEffect) continue;
 
         for (const [trigger, action] of Object.entries(currentEffect.effectTemplate.effectActions)) {
-            if (triggers.some(value => value === trigger)) {
+            if (triggers.includes(trigger as TriggerOn)) {
                 const context: EffectContext = {
                     targetCreature: currentState[target],
                     stackCount: currentEffect.stackCount,
                     gameState: currentState
                 };
-                currentState = applyEffectResult(action(context), target, currentState);
+                const effectResult = action(context);
+                currentState = applyEffectResult(effectResult, target, currentState);
+                if (effectResult.newStackCount !== undefined) {
+                    currentState = new GameStateBuilder(currentState)
+                        .tickEffect(initialEffect.effectTemplate.name, target, effectResult.newStackCount)
+                        .build();
+                }
             }
         }
     }

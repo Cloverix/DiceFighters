@@ -10,5 +10,6 @@ export const effectName = {
     reinforcedArmor: 'Reinforced armor',
     brokenArmor: 'Broken armor',
     defenceUp: 'Defence up',
-    defenceDown: 'Defence down'
+    defenceDown: 'Defence down',
+    preparation: 'Preparation'
 }

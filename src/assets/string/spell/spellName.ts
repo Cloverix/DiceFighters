@@ -14,5 +14,10 @@ export const spellName = {
     sprinkle: 'Sprinkle',
     preciseCut: 'Precise cut',
     scrape: 'Scrape',
-    chaosBolt: 'Chaos bolt'
+    chaosBolt: 'Chaos bolt',
+    curse: 'Curse',
+    crash: 'Crash',
+    weakeningChains: 'Weakening chains',
+    waterSwipe: 'Water swipe',
+    prepare: 'Prepare'
 }

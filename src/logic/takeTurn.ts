@@ -14,7 +14,7 @@ import {triggerEffects} from "./triggerEffects.ts";
 //This function is called whenever a new turn is taken by player or enemy
 export function takeTurn(gameState: GameState): GameState {
     let changedGameState = gameState;
-    let creature: Player | Enemy = changedGameState[changedGameState.currentTurn];
+    let creature: Player | Enemy = changedGameState[changedGameState.currentTurn];          //Creature which's turn it is now
 
     changedGameState = triggerEffects(changedGameState.currentTurn, ['StartTurn'], changedGameState);
     creature = changedGameState[changedGameState.currentTurn];

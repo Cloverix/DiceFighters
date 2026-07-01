@@ -19,6 +19,11 @@ import {preciseCutAction} from "./spellAction/preciseCutAction.ts";
 import {scrapeAction} from "./spellAction/scrapeAction.ts";
 import {chaosBoltAction} from "./spellAction/chaosBoltAction.ts";
 import {dualCastAction} from "./spellAction/dualCastAction.ts";
+import {curseAction} from "./spellAction/curseAction.ts";
+import {crashAction} from "./spellAction/crashAction.ts";
+import {weakeningChainsAction} from "./spellAction/weakeningChainsAction.ts";
+import {waterSwipeAction} from "./spellAction/waterSwipeAction.ts";
+import {prepareAction} from "./spellAction/prepareAction.ts";
 
 export const spellList: Record<string, Spell> = {
     [spellName.strike]: {
@@ -165,6 +170,51 @@ export const spellList: Record<string, Spell> = {
         desc: spellDesc.chaosBolt,
         spellSlot: SpellSlotOptions.anySlot(),
         spellAction: chaosBoltAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.curse]: {
+        id: 17,
+        name: spellName.curse,
+        desc: spellDesc.curse,
+        spellSlot: SpellSlotOptions.anySlot(),
+        spellAction: curseAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.crash]: {
+        id: 18,
+        name: spellName.crash,
+        desc: spellDesc.crash,
+        spellSlot: SpellSlotOptions.anySlot(),
+        spellAction: crashAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.weakeningChains]: {
+        id: 19,
+        name: spellName.weakeningChains,
+        desc: spellDesc.weakeningChains,
+        spellSlot: SpellSlotOptions.anySlot(),
+        spellAction: weakeningChainsAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.waterSwipe]: {
+        id: 20,
+        name: spellName.waterSwipe,
+        desc: spellDesc.waterSwipe,
+        spellSlot: SpellSlotOptions.anySlot(),
+        spellAction: waterSwipeAction,
+        sprite: ''      //TODO: add sprite
+    },
+
+    [spellName.prepare]: {
+        id: 21,
+        name: spellName.prepare,
+        desc: spellDesc.prepare,
+        spellSlot: SpellSlotOptions.evenSlot(),
+        spellAction: prepareAction,
         sprite: ''      //TODO: add sprite
     }
 }

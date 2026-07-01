@@ -1,6 +1,6 @@
 import type {Player} from "../creature/Player.ts";
 import type {Enemy} from "../creature/Enemy.ts";
-import type {EffectReference, EffectTemplate} from "../effect/Effect.ts";
+import type {Effect, EffectAction, EffectContext, EffectReference} from "../effect/Effect.ts";
 import {findEffect} from "../../util/function/findEffect.ts";
 import {effectList} from "../effect/effectList.ts";
 import type {CustomSpellAction, Spell, SpellContext} from "../spell/Spell.ts";
@@ -11,7 +11,7 @@ import {isSlotEmpty} from "../dice/isSlotEmpty.ts";
 import {equipSpell} from "../dice/equipSpell.ts";
 import type {Creature} from "../creature/Creature.ts";
 import type {Dice} from "../dice/Dice.ts";
-import {triggerEffects} from "../../logic/triggerEffects.ts";
+import {applyEffectResult} from "../../logic/applyEffectResult.ts";
 
 export interface GameState {
     player: Player,
@@ -52,17 +52,28 @@ export class GameStateBuilder {
     }
 
     applyEffects(effects: EffectReference[], target: Target): GameStateBuilder {
-        const oldState = this.state;
-        const targetCreature = oldState[target];
-        const updatedEffects = [...targetCreature.effects];
+        let currentState = this.state;
 
         effects.forEach(effectRef => {
             const effectName = effectRef.effectName;
+            const effectTemplate = effectList[effectName];
+
+            if (effectTemplate.effectActions.OnApply) {
+                const effectContext: EffectContext = {
+                    targetCreature: currentState[target],
+                    stackCount: effectRef.stackCount ?? 1,
+                    gameState: currentState
+                };
+                const onApplyAction: EffectAction = effectTemplate.effectActions.OnApply;
+                currentState = applyEffectResult(onApplyAction(effectContext), target, currentState);
+            }
+
+            const targetCreature = currentState[target];
+            const updatedEffects = [...targetCreature.effects];
             const addStacks = effectRef.stackCount ?? 1;
             const effectIndex = findEffect(effectName, updatedEffects);
 
             if (effectIndex === -1) {
-                const effectTemplate: EffectTemplate = effectList[effectName];
                 updatedEffects.push({effectTemplate: effectTemplate, stackCount: addStacks});
             } else {
                 const isSingle: boolean = effectList[effectName].single;
@@ -71,16 +82,14 @@ export class GameStateBuilder {
                     updatedEffects[effectIndex] = {...oldEffect, stackCount: oldEffect.stackCount + addStacks}
                 }
             }
+
+            currentState = {
+                ...currentState,
+                [target]: {...targetCreature, effects: updatedEffects}
+            }
         })
 
-        let newState = {
-            ...oldState,
-            [target]: {...targetCreature, effects: updatedEffects}
-        }
-
-        newState = triggerEffects(target, ['OnApply'], newState);
-
-        return new GameStateBuilder(newState);
+        return new GameStateBuilder(currentState);
     }
 
     removeEffects(effects: EffectReference[], target: Target): GameStateBuilder {
@@ -110,6 +119,34 @@ export class GameStateBuilder {
             ...oldState,
             [target]: {...targetCreature, effects: newEffects}
         }
+
+        return new GameStateBuilder(newState);
+    }
+
+    tickEffect(effectName: string, target: Target, newStackCount: number): GameStateBuilder {
+        const oldTargetCreature: Creature = this.state[target];
+        const oldEffects: Effect[] = oldTargetCreature.effects;
+        const effectIndex = oldEffects.findIndex(effect => effect.effectTemplate.name === effectName);
+
+        let updatedEffects = [...oldEffects];
+        if (effectIndex !== -1) {
+            if (newStackCount === 0) {
+                updatedEffects = updatedEffects.filter((_, index) => index !== effectIndex);
+            }
+            else {
+                const oldEffect: Effect = oldEffects[effectIndex];
+                updatedEffects[effectIndex] = {...oldEffect, stackCount: newStackCount};
+            }
+        }
+
+        const newTargetCreature: Creature = {
+            ...oldTargetCreature,
+            effects: updatedEffects
+        };
+        const newState: GameState = {
+            ...this.state,
+            [target]: newTargetCreature
+        };
 
         return new GameStateBuilder(newState);
     }

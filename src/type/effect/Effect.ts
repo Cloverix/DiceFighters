@@ -23,14 +23,14 @@ export type EffectTemplate = {
  * Modifier - modifies characteristics of cast spells, weakening or strengthening them (ex. Strength, Damage reduction)
  * DOT - deals damage to the creature occasionally.
  */
-export type EffectType = 'buff' | 'debuff' | 'status' | 'modifier' | 'DOT'
+export type EffectType = 'buff' | 'debuff' | 'status' | 'modifier' | 'DOT' | 'special'
 
 export type TriggerOn = 'StartTurn' | 'EndTurn' | 'OnApply'
 
 export type EffectAction = (effectContext: EffectContext) => EffectResult
 
 export interface EffectContext {
-    targetCreature: Creature;
+    targetCreature: Creature;   //Creature which the effect is applied to
     stackCount: number;
     gameState: GameState;
 }

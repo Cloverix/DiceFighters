@@ -10,5 +10,6 @@ export const effectDesc = {
     reinforcedArmor: (): string => 'Receive 25% less damage from spells',
     brokenArmor: (): string => 'Receive 25% more damage from spells',
     defenceUp: (stackCount: number): string => `Receive ${stackCount} less damage from spells`,
-    defenceDown: (stackCount: number): string => `Receive ${stackCount} more damage from spells`
+    defenceDown: (stackCount: number): string => `Receive ${stackCount} more damage from spells`,
+    preparation: (stackCount: number): string => `Increase your next spell's damage and healing by ${stackCount}`
 }
