@@ -1,0 +1,1 @@
+export const HpPerUpgrade = 10;

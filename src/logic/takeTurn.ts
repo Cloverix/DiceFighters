@@ -8,7 +8,6 @@ import {castSpell} from "./castSpell.ts";
 import {hasEffect} from "../util/function/hasEffect.ts";
 import {effectList} from "../type/effect/effectList.ts";
 import {effectName} from "../assets/string/effect/effectName.ts";
-import {checkWinCondition} from "./checkWinCondition.ts";
 import {triggerEffects} from "./triggerEffects.ts";
 
 //This function is called whenever a new turn is taken by player or enemy
@@ -40,8 +39,11 @@ export function takeTurn(gameState: GameState): GameState {
     changedGameState = triggerEffects(changedGameState.currentTurn, ['EndTurn'], changedGameState);
     creature = changedGameState[changedGameState.currentTurn];
 
+    /*
     if (checkWinCondition(changedGameState)) {
-        //TODO: trigger any after-battle effects
+        TODO: trigger any after-battle effects??? (maybe a separate function for this)
+        TODO: OR remove this if-statement
     }
+    */
     return changedGameState;
 }

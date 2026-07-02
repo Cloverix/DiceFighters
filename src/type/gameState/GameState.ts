@@ -12,6 +12,7 @@ import {equipSpell} from "../dice/equipSpell.ts";
 import type {Creature} from "../creature/Creature.ts";
 import type {Dice} from "../dice/Dice.ts";
 import {applyEffectResult} from "../../logic/applyEffectResult.ts";
+import type {Inventory} from "../inventory/Inventory.ts";
 
 export interface GameState {
     player: Player,
@@ -204,6 +205,38 @@ export class GameStateBuilder {
                 return new GameStateBuilder(newState).addLog(successLog);
             }
         }
+    }
+
+    setMaxHp(target: Target, newMaxHp: number): GameStateBuilder {
+        const oldCreature: Creature = this.state[target];
+        const newCreature: Creature = {
+            ...oldCreature,
+            maxHp: newMaxHp
+        };
+        const newState: GameState = {
+            ...this.state,
+            [target]: newCreature
+        };
+        return new GameStateBuilder(newState);
+    }
+
+    addSpellToInventory(spell: Spell): GameStateBuilder {
+        const oldPlayer: Player = this.state.player;
+        const oldInventory: Inventory = oldPlayer.inventory;
+        const newStoredSpells: Spell[] = [...oldInventory.storedSpells, spell];
+        const newInventory: Inventory = {
+            ...oldInventory,
+            storedSpells: newStoredSpells
+        };
+        const newPlayer: Player = {
+            ...oldPlayer,
+            inventory: newInventory
+        };
+        const newState: GameState = {
+            ...this.state,
+            player: newPlayer
+        };
+        return new GameStateBuilder(newState);
     }
 
     addLog(message: string): GameStateBuilder {
