@@ -1,11 +1,10 @@
 import type {Spell} from "../spell/Spell.ts";
 import type {FixedMap} from "../../util/class/FixedMap.ts";
-import type {Sprite} from "../../assets/sprite/Sprite.ts";
 
 export interface Dice {
-    edgeCount: DiceEdgeCount;
+    faceCount: DiceEdgeCount;
     equippedSpells: FixedMap<Spell>;        //Null slots are considered Strikes
-    sprite: Sprite;
+    sprite: string;                         //Determines an empty-face look of the dice, effectively acting as dice background
 }
 
 export type DiceEdgeCount = 4 | 6 | 12 | 20

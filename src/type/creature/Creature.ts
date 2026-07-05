@@ -1,5 +1,4 @@
 import type {Dice} from "../dice/Dice.ts";
-import type {Sprite} from "../../assets/sprite/Sprite.ts";
 import type {Effect} from "../effect/Effect.ts";
 
 export interface Creature {
@@ -9,6 +8,6 @@ export interface Creature {
     hp: number;
     effects: Effect[];
     dices: Dice[];
-    sprite: Sprite;
+    sprite: string;
 }
 

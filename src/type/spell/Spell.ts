@@ -1,6 +1,5 @@
-import type {Sprite} from "../../assets/sprite/Sprite.ts";
 import type {SpellSlot} from "./spellSlot.ts";
-import type {Target, GameState} from "../gameState/GameState.ts";
+import type {GameState, Target} from "../gameState/GameState.ts";
 import type {EffectReference} from "../effect/Effect.ts";
 import type {Creature} from "../creature/Creature.ts";
 import type {Dice} from "../dice/Dice.ts";
@@ -12,7 +11,7 @@ export interface Spell {
     category?: SpellCategory[];
     spellSlot: SpellSlot;
     spellAction: SpellAction;
-    sprite: Sprite;
+    sprite?: string;
 }
 
 export type SpellCategory = 'unique' | 'enemyExclusive' | 'playerExclusive'

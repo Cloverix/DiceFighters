@@ -1,7 +1,7 @@
 import type {GameState} from "../type/gameState/GameState.ts";
 import type {Enemy} from "../type/creature/Enemy.ts";
 import type {Player} from "../type/creature/Player.ts";
-import {diceRollResult} from "../util/function/diceRollResult.ts";
+import {getRollResult} from "../util/function/getRollResult.ts";
 import type {Spell, SpellContext} from "../type/spell/Spell.ts";
 import {getEquippedSpell} from "../util/function/getEquippedSpell.ts";
 import {castSpell} from "./castSpell.ts";
@@ -23,7 +23,7 @@ export function takeTurn(gameState: GameState): GameState {
     }
 
     //Roll dices and cast spells
-    const rollResults: number[] = creature.dices.map(dice => diceRollResult(dice));
+    const rollResults: number[] = creature.dices.map(dice => getRollResult(dice));
     const spellsToCast: Spell[] = rollResults.map((result, index) => getEquippedSpell(creature.dices[index], result));
     spellsToCast.forEach((spell, index) => {
         const spellContext: SpellContext = {

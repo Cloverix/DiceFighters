@@ -19,7 +19,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff', 'DOT'],
         effectActions: {'StartTurn': burnAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.stun]: {
@@ -29,7 +29,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff'],
         effectActions: {'StartTurn': stunAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.wet]: {
@@ -39,7 +39,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['status'],
         effectActions: {'OnApply': wetOnApplyAction},
         single: true,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.deepWounds]: {
@@ -49,7 +49,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff'],
         effectActions: {'OnApply': deepWoundsOnApplyAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.strength]: {
@@ -59,7 +59,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['buff', 'modifier'],
         effectActions: {'EndTurn': strengthAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.weakness]: {
@@ -69,7 +69,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff', 'modifier'],
         effectActions: {'EndTurn': weaknessAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.damageUp]: {
@@ -79,7 +79,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['buff', 'modifier'],
         effectActions: {},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.damageDown]: {
@@ -89,7 +89,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff', 'modifier'],
         effectActions: {},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.reinforcedArmor]: {
@@ -99,7 +99,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['buff', 'modifier'],
         effectActions: {'EndTurn': reinforcedArmorAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.brokenArmor]: {
@@ -109,7 +109,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff', 'modifier'],
         effectActions: {'EndTurn': brokenArmorAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.defenceUp]: {
@@ -119,7 +119,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['buff', 'modifier'],
         effectActions: {},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.defenceDown]: {
@@ -129,7 +129,7 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['debuff', 'modifier'],
         effectActions: {},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     },
 
     [effectName.preparation]: {
@@ -139,6 +139,6 @@ export const effectList: Record<string, EffectTemplate> = {
         effectType: ['buff', 'modifier'],
         effectActions: {'OnApply': preparationAction},
         single: false,
-        icon: ''    //TODO: add sprite
+        sprite: ''    //TODO: add sprite
     }
 }

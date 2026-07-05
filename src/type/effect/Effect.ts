@@ -1,4 +1,3 @@
-import type {Sprite} from "../../assets/sprite/Sprite.ts";
 import type {Creature} from "../creature/Creature.ts";
 import type {GameState, Target} from "../gameState/GameState.ts";
 
@@ -14,7 +13,7 @@ export type EffectTemplate = {
     effectType: EffectType[],
     effectActions: Partial<Record<TriggerOn, EffectAction>>,
     single: boolean,                //Determines if only one stack of an effect can be applied
-    icon: Sprite
+    sprite: string
 }
 
 /**Buff - provides useful effects to the creature.
