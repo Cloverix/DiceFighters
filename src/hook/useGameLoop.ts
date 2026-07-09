@@ -13,7 +13,7 @@ function gameLoopReducer(prevState: GameState, action: GameLoopAction): GameStat
             return takeTurn(prevState);
         }
         case 'EndBattle': {
-            return prevState//TODO: add a function that handles after-battle actions (upgrades, etc.)
+            return prevState;//TODO: add a function that handles after-battle actions (upgrades, etc.)
         }
     }
 }
@@ -32,7 +32,7 @@ export function useGameLoop(initialState: GameState) {
     useEffect(() => {
         if (state.currentTurn === 'enemy' && !checkWinCondition(state)) {
             const timerId = setTimeout(() => handleTakeTurn(), 1000);
-            return () => clearTimeout(timerId)
+            return () => clearTimeout(timerId);
         }
     }, [state.currentTurn, handleTakeTurn])
 

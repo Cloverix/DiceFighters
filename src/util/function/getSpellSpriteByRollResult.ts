@@ -8,7 +8,6 @@ import diceFaceThree from '../../assets/sprite/dice/dice-face-3.png';
 import diceFaceFour from '../../assets/sprite/dice/dice-face-4.png';
 import diceFaceFive from '../../assets/sprite/dice/dice-face-5.png';
 import diceFaceSix from '../../assets/sprite/dice/dice-face-6.png';
-import defaultDice from '../../assets/sprite/dice/dice-6-sides-empty.png';
 
 /**
  * Get sprite of the spell by roll result.
@@ -17,7 +16,7 @@ import defaultDice from '../../assets/sprite/dice/dice-6-sides-empty.png';
  * @param dice - dice to use
  * @param rollResult - slot to take spell sprite from
  */
-export function getSpellSpriteByRollResult(dice: Dice, rollResult: number): string {
+export function getSpellSpriteByRollResult(dice: Dice, rollResult: number): string | null {
     const spell: Spell = getEquippedSpell(dice, rollResult);
 
     if (spell.name === spellName.strike) {
@@ -28,10 +27,10 @@ export function getSpellSpriteByRollResult(dice: Dice, rollResult: number): stri
             case 4: return diceFaceFour;
             case 5: return diceFaceFive;
             case 6: return diceFaceSix;
-            default: return defaultDice;
+            default: return null;
         }
     }
     else {
-        return spell.sprite ?? defaultDice;
+        return spell.sprite ?? null;
     }
 }

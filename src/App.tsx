@@ -1,47 +1,59 @@
-import {HealthBar} from "./component/HealthBar/HealthBar.tsx";
-import {useState} from "react";
-import {Creature} from "./component/Creature/Creature.tsx";
-import {Dice as DiceComponent} from "./component/Dice/Dice.tsx";
-import playerSprite from './assets/sprite/creature/player.png'
-import goblinSprite from './assets/sprite/creature/goblin.png'
-import goblinCorpseSprite from './assets/sprite/creature/goblin_corpse.png'
 import type {Dice} from "./type/dice/Dice.ts";
 import {FixedMap} from "./util/class/FixedMap.ts";
-import emptyFaceDice from "./assets/sprite/dice/dice-6-sides-empty.png";
+import emptyFaceDice from "./assets/sprite/dice/dice-6-side-empty.png";
+import {cloneDice} from "./type/dice/cloneDice.ts";
+import {useState} from "react";
+import {BattleScreen} from "./component/BattleScreen/BattleScreen.tsx";
+import {type GameState} from "./type/gameState/GameState.ts";
+import {PlayerBuilder} from "./type/creature/Player.ts";
+import {EnemyBuilder} from "./type/creature/Enemy.ts";
+import goblinSprite from "./assets/sprite/creature/goblin.png"
 
 
 function App() {
-    const [hp1, setHp1] = useState(100);
+    const [hp, setHp] = useState(100);
 
-    const decreaseAll = () => {
-        setHp1(prev => Math.max(0, prev - 20));
+    const damage = () => {
+        setHp(Math.max(hp - 20, 0));
     }
 
-    const increaseAll = () => {
-        setHp1(prev => Math.min(100, prev + 20));
+    const heal = () => {
+        setHp(Math.min(hp + 20, 100));
     }
 
     const dice: Dice = {faceCount: 6, equippedSpells: new FixedMap(6), sprite: emptyFaceDice};
+    const dices: Dice[] = [];
+    for (let i = 0; i < 3; i++) {
+        dices.push(cloneDice(dice));
+    }
+
+    const player = new PlayerBuilder('player')
+        .setDices(dices)
+        .build();
+
+    const enemy = new EnemyBuilder(1)
+        .setDices(dices)
+        .setSprite(goblinSprite)
+        .build();
+
+    const gameState: GameState = {
+        player: player,
+        enemy: enemy,
+        currentTurn: 'player',
+        logs: []
+    }
 
   return (
+      /*
       <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           padding: '20px'
       }}>
-          <HealthBar hp={hp1} maxHp={100}/>
-          <button onClick={decreaseAll}>
-              Deal damage
-          </button>
-          <button onClick={increaseAll}>
-              Heal
-          </button>
-          <Creature name={'player'} sprite={playerSprite}/>
-          <Creature name={'goblin'} sprite={goblinSprite}/>
-          <Creature name={'goblin-corpse'} sprite={goblinCorpseSprite}/>
-          <DiceComponent dice={dice}/>
       </div>
+       */
+      <BattleScreen gameState={gameState}/>
   );
 }
 

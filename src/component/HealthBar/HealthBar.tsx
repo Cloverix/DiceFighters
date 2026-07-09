@@ -5,9 +5,7 @@ type HealthBarProps = {
     maxHp: number
 }
 
-export function HealthBar(props: HealthBarProps) {
-    const hp = props.hp;
-    const maxHp = props.maxHp;
+export function HealthBar({hp, maxHp}: HealthBarProps) {
     const hpPercent = Math.ceil(maxHp > 0 ? (hp / maxHp * 100) : 0);
 
     return (

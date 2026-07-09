@@ -1,0 +1,11 @@
+.dice-row-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*
+    background-color: #7a0000;
+    border: black 2px solid;
+    border-radius: 8px;
+    */
+    overflow: hidden;
+}

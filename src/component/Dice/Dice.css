@@ -1,22 +1,9 @@
-/*
-//TODO: remove .temp and .roll-button when it is no longer used in Dice.tsx
-*/
-.temp {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    height: 128px;
-    width: 128px;
-}
-
 .dice-container {
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    transition: transform 0.2s ease-out;
 }
 
 .dice-bg {
@@ -29,9 +16,4 @@
     display: flex;
     image-rendering: pixelated;
     position: absolute;
-}
-
-.roll-button {
-    display: flex;
-    z-index: 1;
 }

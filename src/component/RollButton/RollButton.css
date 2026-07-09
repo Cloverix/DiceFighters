@@ -1,0 +1,25 @@
+.roll-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: black 2px solid;
+    border-radius: 16px;
+    cursor: pointer;
+    background-color: #7a0000;
+    transition: background-color 0.05s ease, transform 0.1s ease;
+}
+
+.roll-button-container:hover {
+    background-color: #6a0000;
+}
+
+.roll-button-container:active {
+    background-color: #620000;
+    transform: scale(0.95);
+}
+
+.roll-button-text {
+    color: white;
+    font-size: 36px;
+    font-family: "Ubuntu Sans Mono";
+}

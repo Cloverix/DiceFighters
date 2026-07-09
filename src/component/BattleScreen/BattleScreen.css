@@ -1,0 +1,17 @@
+.battle-screen-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.creatures-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.roll-player-dice-button {
+    align-self: center;
+    margin-top: 40px;
+}

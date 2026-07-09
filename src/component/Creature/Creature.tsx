@@ -3,19 +3,17 @@ import './Creature.css'
 type CreatureProps = {
     name: string,
     sprite: string,
-    size?: number
+    size?: number,
+    style?: React.CSSProperties
 }
 
-export function Creature(props: CreatureProps) {
-    const name: string = props.name;
-    const sprite: string = props.sprite;
-    const size: number = props.size ? props.size : 256;
-
+export function Creature({name, sprite, size = 256, style = {}}: CreatureProps) {
     return (
         <div className='creature-container'>
             <img className='creature-sprite' src={sprite} alt={name} style={{
                 width: size,
-                height: size
+                height: size,
+                ...style
             }}/>
         </div>
     )

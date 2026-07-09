@@ -1,36 +1,42 @@
 import type {Dice} from "../../type/dice/Dice.ts";
-import {useSpellSprite} from "../../hook/useSpellSprite.ts";
-import diceFaceOne from "../../assets/sprite/dice/dice-face-1.png";
-
 import './Dice.css'
+import {useEffect} from "react";
+import {useDiceRoll} from "../../hook/useDiceRoll.ts";
+import initialSprite from "../../assets/sprite/dice/dice-face-1.png"
 
-type DiceProps = {
+export type DiceProps = {
     dice: Dice,
-    size?: number
+    size?: number,
+    onMount?: (startRolling: () => void) => void             //Callback to pass startRolling function to the parent
 }
 
-export function Dice(props: DiceProps) {
-    const dice: Dice = props.dice;
-    const size: number = props.size ?? 128;
-    const initialSprite: string = dice.equippedSpells.get(0)?.sprite ?? diceFaceOne;
-    const {sprite, finalRollResult, startRolling, cleanup} = useSpellSprite(dice, 1, initialSprite);
+export function Dice({dice, size = 64, onMount}: DiceProps) {
+    const {sprite, scale, startRolling, cleanup} = useDiceRoll(dice, 1, initialSprite);
 
-    //TODO: remove 'temp' and 'roll-button' elements, make one button for all the rolling in a different component
+    useEffect(() => {
+        if (onMount) {
+            onMount(startRolling);
+        }
+    }, [onMount, startRolling])
+
+    useEffect(() => {
+        return cleanup;
+    }, [cleanup]);
+
     return (
-        <div className='temp'>
-            <div className='dice-container'>
-                <img className='dice-bg' alt='dice-bg' src={dice.sprite} style={{
-                    width: size,
-                    height: size
-                }}/>
-                <img className='spell-sprite' alt='spell-sprite' src={sprite} style={{
-                    width: size,
-                    height: size
-                }}/>
-            </div>
-            <button className='roll-button' onClick={startRolling}>
-                Roll!
-            </button>
+        <div className='dice-container' style={{
+            width: `${size}px`,
+            height: `${size}px`,
+            transform: `scale(${scale})`
+        }}>
+            <img className='dice-bg' alt='dice-bg' src={dice.sprite} style={{
+                width: size,
+                height: size
+            }}/>
+            <img className='spell-sprite' alt='spell-sprite' src={sprite} style={{
+                width: size,
+                height: size
+            }}/>
         </div>
     )
 }
