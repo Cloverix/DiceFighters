@@ -15,7 +15,6 @@ import {triggerEffects} from "./triggerEffects.ts";
  * @return - updated game state after a turn is taken.
  */
 export function takeTurn(gameState: GameState): GameState {
-    console.log('takeTurn entered');
     let changedGameState: GameState = {...gameState};
     const currentTurn: Target = changedGameState.currentTurn;
     let creature: Player | Enemy = changedGameState[currentTurn];          //Creature which's turn it is now
@@ -37,16 +36,13 @@ export function takeTurn(gameState: GameState): GameState {
 
     const spellsToCast: Spell[] = rollResults.map((result, index) => getEquippedSpell(creature.dices[index], result));
     spellsToCast.forEach((spell, index) => {
-        console.log(`${spell.name} cast`);
         const spellContext: SpellContext = {
             casterCreature: creature,
             dice: creature.dices[index],
             diceValue: rollResults[index],
             gameState: changedGameState
         }
-        console.log(`hp before: ${changedGameState.enemy.hp}`);
         changedGameState = castSpell(spell, spellContext);
-        console.log(`hp after: ${changedGameState.enemy.hp}`);
         creature = changedGameState[currentTurn];
     })
 
@@ -59,6 +55,5 @@ export function takeTurn(gameState: GameState): GameState {
         TODO: OR remove this if-statement
     }
     */
-    console.log('takeTurn finished');
     return changedGameState;
 }

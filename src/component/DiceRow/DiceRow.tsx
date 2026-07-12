@@ -23,7 +23,6 @@ export function DiceRow({dices, onDicesMount, onDicesUnmount}: DiceRowProps) {
         rollFunctions.current.set(diceId, startRolling);
         functionsCount.current++;
         if (onDicesMount && functionsCount.current === dices.length) {
-            console.log('DiceRow: onDicesMount');
             onDicesMount(new Map(rollFunctions.current));
         }
     }, [dices.length, onDicesMount])
@@ -32,7 +31,6 @@ export function DiceRow({dices, onDicesMount, onDicesUnmount}: DiceRowProps) {
         rollFunctions.current.delete(diceId);
         functionsCount.current--;
         if (onDicesUnmount) {
-            console.log('DiceRow: onDicesUnmount');
             onDicesUnmount(new Map(rollFunctions.current));
         }
     }, [onDicesUnmount])

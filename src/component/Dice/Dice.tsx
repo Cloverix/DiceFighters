@@ -16,8 +16,6 @@ export function Dice({dice, size = 64, onMount, onUnmount}: DiceProps) {
     const {sprite, scale, startRolling, cleanup} = useDiceRoll(dice, 1, initialSprite);
     const startRollingRef = useRef(startRolling);
 
-    console.log(`dice id: ${dice.id}`);
-
     useEffect(() => {
         startRollingRef.current = startRolling;
     }, [startRolling]);

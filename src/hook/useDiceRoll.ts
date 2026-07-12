@@ -29,7 +29,6 @@ export function useDiceRoll(dice: Dice, initialRoll: number, initialSprite: stri
     const startRolling: StartRollingFunc = useCallback((
         timeoutMs: number, onComplete?: (rollResult: number) => void
     ) => {
-        console.log('startRolling started');
         if (intervalId.current) return;
 
         let lastRoll = finalRollResultRef.current;
@@ -41,7 +40,6 @@ export function useDiceRoll(dice: Dice, initialRoll: number, initialSprite: stri
             setSprite(cycledSprite ?? defaultSprite);
         }, timeoutMs / 8);
 
-        console.log('Timeout set')
         timeoutId.current = setTimeout(() => {
             if (intervalId.current) {
                 clearInterval(intervalId.current);
@@ -60,7 +58,6 @@ export function useDiceRoll(dice: Dice, initialRoll: number, initialSprite: stri
                 setScale(1);
             }, 200)
 
-            console.log('onComplete reached')
             if (onComplete) {
                 onComplete(finalRoll);
             }

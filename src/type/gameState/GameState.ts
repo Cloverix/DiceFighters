@@ -35,7 +35,6 @@ export class GameStateBuilder {
     }
 
     applyDamage(damage: number, target: Target): GameStateBuilder {
-        console.log(`applyDamage called: damage=${damage} target=${target}`);
         const oldState = this.state;
         const creature: Player | Enemy = oldState[target];
         const newHp = Math.max(0, creature.hp - damage);
@@ -254,6 +253,7 @@ export class GameStateBuilder {
     }
 
     addLog(message: string): GameStateBuilder {
+        console.log(message);
         return new GameStateBuilder({...this.state, logs: [...this.state.logs, message]});
     }
 

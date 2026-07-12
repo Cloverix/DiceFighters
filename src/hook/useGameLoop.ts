@@ -11,13 +11,11 @@ type GameLoopAction =
 function gameLoopReducer(prevState: GameState, action: GameLoopAction): GameState {
     switch (action.kind) {
         case 'UpdateRollResults': {
-            console.log('UpdateRollResults action', action.rollResults, action.target);
             return new GameStateBuilder(prevState)
                 .setRollResults(action.rollResults, action.target)
                 .build();
         }
         case 'TakeTurn': {
-            console.log('TakeTurn action');
             return takeTurn(prevState);
         }
         case 'EndBattle': {
@@ -30,12 +28,10 @@ export function useGameLoop(initialState: GameState) {
     const [state, dispatch] = useReducer(gameLoopReducer, initialState);
 
     const updateRollResults = useCallback((results: number[], target: Target) => {
-        console.log('updateRollResults called');
         dispatch({kind: 'UpdateRollResults', rollResults: results, target: target});
     }, [])
 
     const handleTakeTurn = useCallback(() => {
-        console.log('handleTakeTurn called');
         dispatch({kind: 'TakeTurn'});
     }, []);
 

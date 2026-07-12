@@ -21,8 +21,6 @@ export function BattleScreen({gameState}: BattleScreenProps) {
     const [rollButtonDisabled, setRollButtonDisabled] = useState(false);
 
     const onRollClick = () => {
-        console.log(`player functions count: ${playerRollFunctions.size}`);
-        console.log(`enemy functions count: ${enemyRollFunctions.size}`);
         const playerRollResults: number[] = [];
         let resultsCount = 0;
 
@@ -38,7 +36,6 @@ export function BattleScreen({gameState}: BattleScreenProps) {
             });
         });
         setRollButtonDisabled(false);
-        console.log(playerRollFunctions.size);
     }
 
     return (

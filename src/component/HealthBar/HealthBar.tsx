@@ -6,7 +6,6 @@ type HealthBarProps = {
 }
 
 export function HealthBar({hp, maxHp}: HealthBarProps) {
-    console.log('HealthBar rendered');
     const hpPercent = Math.ceil(maxHp > 0 ? (hp / maxHp * 100) : 0);
 
     return (

@@ -34,7 +34,6 @@ function App() {
             list.push(newDice);
             diceIdCounter++;
         }
-        console.log('player dices created');
         return list;
     }, []);
 
@@ -45,7 +44,6 @@ function App() {
             list.push(newDice);
             diceIdCounter++;
         }
-        console.log('enemy dices created');
         return list;
     }, [])
 
@@ -70,15 +68,6 @@ function App() {
     }
 
   return (
-      /*
-      <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '20px'
-      }}>
-      </div>
-       */
       <BattleScreen gameState={gameState}/>
   );
 }

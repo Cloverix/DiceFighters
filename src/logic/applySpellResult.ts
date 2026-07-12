@@ -11,7 +11,6 @@ export function applySpellResult(spellResult: SpellResult, gameState: GameState)
 
     const hitTimes = spellResult.hitTimes ?? 1;
     for (let i = 0; i < hitTimes; i++) {
-        console.log(`applySpellResult damage dealt: ${opponent}, ${spellResult.damage}`)
         builder = builder.applyDamage(spellResult.damage ?? 1, opponent);
     }
 
