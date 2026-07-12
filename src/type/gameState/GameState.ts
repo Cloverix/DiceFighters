@@ -18,6 +18,10 @@ export interface GameState {
     player: Player,
     enemy: Enemy,
     currentTurn: Target,
+    currentRollResults: {               //Order of results matches order of dices
+        player: number[],
+        enemy: number[]
+    }
     logs: string[]
 }
 
@@ -31,6 +35,7 @@ export class GameStateBuilder {
     }
 
     applyDamage(damage: number, target: Target): GameStateBuilder {
+        console.log(`applyDamage called: damage=${damage} target=${target}`);
         const oldState = this.state;
         const creature: Player | Enemy = oldState[target];
         const newHp = Math.max(0, creature.hp - damage);
@@ -235,6 +240,15 @@ export class GameStateBuilder {
         const newState: GameState = {
             ...this.state,
             player: newPlayer
+        };
+        return new GameStateBuilder(newState);
+    }
+
+    setRollResults(rollResults: number[], target: Target): GameStateBuilder {
+        const newState: GameState = {...this.state};
+        newState.currentRollResults = {
+            ...newState.currentRollResults,
+            [target]: rollResults
         };
         return new GameStateBuilder(newState);
     }

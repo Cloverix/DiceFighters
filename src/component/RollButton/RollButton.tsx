@@ -2,14 +2,15 @@ import "./RollButton.css"
 import type {ComponentPropsWithoutRef} from "react";
 
 export type RollButtonProps = {
-    handleRoll: () => void,
+    onClick: () => void,
+    disabled: boolean,
     width?: number,
     height?: number
 } & ComponentPropsWithoutRef<'div'>
 
-export function RollButton({handleRoll, width = 192, height = 64, ...props}: RollButtonProps) {
+export function RollButton({onClick, disabled, width = 192, height = 64, ...props}: RollButtonProps) {
     return (
-        <button className={`roll-button-container ${props.className || ''}`} onClick={handleRoll} style={{
+        <button className={`roll-button-container ${props.className || ''}`} onClick={onClick} disabled={disabled} style={{
             width: `${width}px`,
             height: `${height}px`
         }}>

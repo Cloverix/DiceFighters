@@ -6,6 +6,7 @@ import defaultDiceSprite from "../../assets/sprite/dice/dice-6-side-empty.png"
 import {MAX_DICE_FACES} from "../../assets/constants/numericConstants.ts";
 
 export interface Dice {
+    id: number,                             //Must be unique among all used dices
     faceCount: DiceEdgeCount;
     equippedSpells: FixedMap<Spell>;        //Null slots are considered Strikes
     sprite: string;                         //Determines an empty-face look of the dice, effectively acting as dice background
@@ -14,11 +15,13 @@ export interface Dice {
 export type DiceEdgeCount = 4 | 6 | 12 | 20
 
 export class DiceBuilder {
+    private readonly id: number;
     private faceCount: DiceEdgeCount;
     private spellNames: Map<number, string | null>;                 //Null indicates no spell equipped
     private sprite: string;
 
-    constructor(faceCount: DiceEdgeCount) {
+    constructor(id: number, faceCount: DiceEdgeCount) {
+        this.id = id;
         this.faceCount = faceCount;
         this.sprite = defaultDiceSprite;
         this.spellNames = new Map<number, string | null>();
@@ -68,6 +71,7 @@ export class DiceBuilder {
             equippedSpells.set(spellList[name] ?? spellList[spellName.strike], i - 1);
         }
         return {
+            id: this.id,
             faceCount: this.faceCount,
             equippedSpells: equippedSpells,
             sprite: this.sprite

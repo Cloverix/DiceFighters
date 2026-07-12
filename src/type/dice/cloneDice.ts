@@ -3,7 +3,7 @@ import {FixedMap} from "../../util/class/FixedMap.ts";
 import type {Spell} from "../spell/Spell.ts";
 
 /**
- * Makes a deep copy of given Dice object
+ * Makes a deep copy of given Dice object. Id is NOT changed.
  * @param dice - a dice to clone
  */
 export function cloneDice(dice: Dice): Dice {

@@ -1,7 +1,6 @@
-import type {GameState} from "../type/gameState/GameState.ts";
+import type {GameState, Target} from "../type/gameState/GameState.ts";
 import type {Enemy} from "../type/creature/Enemy.ts";
 import type {Player} from "../type/creature/Player.ts";
-import {getRollResult} from "../util/function/getRollResult.ts";
 import type {Spell, SpellContext} from "../type/spell/Spell.ts";
 import {getEquippedSpell} from "../util/function/getEquippedSpell.ts";
 import {castSpell} from "./castSpell.ts";
@@ -10,34 +9,49 @@ import {effectList} from "../type/effect/effectList.ts";
 import {effectName} from "../assets/string/effect/effectName.ts";
 import {triggerEffects} from "./triggerEffects.ts";
 
-//This function is called whenever a new turn is taken by player or enemy
+/**
+ * This function is called whenever a new turn is taken by player or enemy.
+ * @param gameState - current game state.
+ * @return - updated game state after a turn is taken.
+ */
 export function takeTurn(gameState: GameState): GameState {
-    let changedGameState = gameState;
-    let creature: Player | Enemy = changedGameState[changedGameState.currentTurn];          //Creature which's turn it is now
+    console.log('takeTurn entered');
+    let changedGameState: GameState = {...gameState};
+    const currentTurn: Target = changedGameState.currentTurn;
+    let creature: Player | Enemy = changedGameState[currentTurn];          //Creature which's turn it is now
 
-    changedGameState = triggerEffects(changedGameState.currentTurn, ['StartTurn'], changedGameState);
-    creature = changedGameState[changedGameState.currentTurn];
+    changedGameState = triggerEffects(currentTurn, ['StartTurn'], changedGameState);
+    creature = changedGameState[currentTurn];
 
     if (hasEffect(creature, effectList[effectName.stun])) {
         return changedGameState;
     }
 
-    //Roll dices and cast spells
-    const rollResults: number[] = creature.dices.map(dice => getRollResult(dice));
+    //Cast spells
+    const rollResults: number[] = changedGameState.currentRollResults[currentTurn];
+
+    //TODO: for debugging, remove later
+    if (rollResults.length !== creature.dices.length) {
+        console.warn('Mismatch between roll results and creature dices length!');
+    }
+
     const spellsToCast: Spell[] = rollResults.map((result, index) => getEquippedSpell(creature.dices[index], result));
     spellsToCast.forEach((spell, index) => {
+        console.log(`${spell.name} cast`);
         const spellContext: SpellContext = {
             casterCreature: creature,
             dice: creature.dices[index],
             diceValue: rollResults[index],
             gameState: changedGameState
         }
+        console.log(`hp before: ${changedGameState.enemy.hp}`);
         changedGameState = castSpell(spell, spellContext);
-        creature = changedGameState[changedGameState.currentTurn];
+        console.log(`hp after: ${changedGameState.enemy.hp}`);
+        creature = changedGameState[currentTurn];
     })
 
-    changedGameState = triggerEffects(changedGameState.currentTurn, ['EndTurn'], changedGameState);
-    creature = changedGameState[changedGameState.currentTurn];
+    changedGameState = triggerEffects(currentTurn, ['EndTurn'], changedGameState);
+    creature = changedGameState[currentTurn];
 
     /*
     if (checkWinCondition(changedGameState)) {
@@ -45,5 +59,6 @@ export function takeTurn(gameState: GameState): GameState {
         TODO: OR remove this if-statement
     }
     */
+    console.log('takeTurn finished');
     return changedGameState;
 }

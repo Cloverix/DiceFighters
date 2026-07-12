@@ -1,27 +1,41 @@
 import type {Dice} from "../../type/dice/Dice.ts";
 import './Dice.css'
-import {useEffect} from "react";
-import {useDiceRoll} from "../../hook/useDiceRoll.ts";
+import {useEffect, useRef} from "react";
+import {type StartRollingFunc, useDiceRoll} from "../../hook/useDiceRoll.ts";
 import initialSprite from "../../assets/sprite/dice/dice-face-1.png"
 
 export type DiceProps = {
     dice: Dice,
     size?: number,
-    onMount?: (startRolling: () => void) => void             //Callback to pass startRolling function to the parent
+    //Callback to pass data about the roll to the parent
+    onMount?: (diceId: number, startRolling: StartRollingFunc) => void,
+    onUnmount?: (diceId: number) => void
 }
 
-export function Dice({dice, size = 64, onMount}: DiceProps) {
+export function Dice({dice, size = 64, onMount, onUnmount}: DiceProps) {
     const {sprite, scale, startRolling, cleanup} = useDiceRoll(dice, 1, initialSprite);
+    const startRollingRef = useRef(startRolling);
+
+    console.log(`dice id: ${dice.id}`);
+
+    useEffect(() => {
+        startRollingRef.current = startRolling;
+    }, [startRolling]);
 
     useEffect(() => {
         if (onMount) {
-            onMount(startRolling);
+            onMount(dice.id, startRollingRef.current);
         }
-    }, [onMount, startRolling])
+    }, [dice.id])
 
     useEffect(() => {
-        return cleanup;
-    }, [cleanup]);
+        return () => {
+            if (onUnmount) {
+                onUnmount(dice.id);
+            }
+            cleanup();
+        };
+    }, [dice.id, onUnmount, cleanup]);
 
     return (
         <div className='dice-container' style={{

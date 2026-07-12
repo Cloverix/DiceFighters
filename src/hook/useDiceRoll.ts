@@ -5,6 +5,8 @@ import {getSpellSpriteByRollResult} from "../util/function/getSpellSpriteByRollR
 import {getRollResultExcept} from "../util/function/getRollResultExcept.ts";
 import defaultSprite from "../assets/sprite/dice/dice-6-side-empty.png"
 
+export type StartRollingFunc = (timeoutMs: number, onComplete?: (rollResult: number) => void) => void
+
 /**
  * @param dice - dice to use
  * @param initialRoll - initial roll result
@@ -13,23 +15,33 @@ import defaultSprite from "../assets/sprite/dice/dice-6-side-empty.png"
 export function useDiceRoll(dice: Dice, initialRoll: number, initialSprite: string) {
     const [sprite, setSprite] = useState(initialSprite);
     const [finalRollResult, setFinalRollResult] = useState(initialRoll);
+    const finalRollResultRef = useRef(finalRollResult);
+
+    useEffect(() => {
+        finalRollResultRef.current = finalRollResult;
+    }, [finalRollResult]);
+
     const [scale, setScale] = useState(1);
     const intervalId = useRef<number | null>(null);
     const timeoutId = useRef<number | null>(null);
     const scaleTimeoutId = useRef<number | null>(null);
 
-    const startRolling = useCallback(() => {
+    const startRolling: StartRollingFunc = useCallback((
+        timeoutMs: number, onComplete?: (rollResult: number) => void
+    ) => {
+        console.log('startRolling started');
         if (intervalId.current) return;
 
-        let lastRoll = finalRollResult;
+        let lastRoll = finalRollResultRef.current;
 
         intervalId.current = setInterval(() => {
             const newRoll = getRollResultExcept(dice, [lastRoll]);
             const cycledSprite = getSpellSpriteByRollResult(dice, newRoll);
             lastRoll = newRoll;
             setSprite(cycledSprite ?? defaultSprite);
-        }, 150);
+        }, timeoutMs / 8);
 
+        console.log('Timeout set')
         timeoutId.current = setTimeout(() => {
             if (intervalId.current) {
                 clearInterval(intervalId.current);
@@ -47,8 +59,13 @@ export function useDiceRoll(dice: Dice, initialRoll: number, initialSprite: stri
             scaleTimeoutId.current = setTimeout(() => {
                 setScale(1);
             }, 200)
-        }, 1200);
-    }, [dice, finalRollResult]);
+
+            console.log('onComplete reached')
+            if (onComplete) {
+                onComplete(finalRoll);
+            }
+        }, timeoutMs);
+    }, [dice]);
 
     const cleanup = useCallback(() => {
         if (intervalId.current) {

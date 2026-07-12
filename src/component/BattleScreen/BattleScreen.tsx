@@ -1,33 +1,63 @@
-import type {GameState} from "../../type/gameState/GameState.ts";
+import {type GameState} from "../../type/gameState/GameState.ts";
 import "./BattleScreen.css"
-import {use, useState} from "react";
+import {useState} from "react";
 import {CreatureAndDices} from "../CreatureAndDices/CreatureAndDices.tsx";
 import {RollButton} from "../RollButton/RollButton.tsx";
+import {useGameLoop} from "../../hook/useGameLoop.ts";
+import type {StartRollingFunc} from "../../hook/useDiceRoll.ts";
 
 type BattleScreenProps = {
     gameState: GameState
 }
 
 export function BattleScreen({gameState}: BattleScreenProps) {
-    const [player, setPlayer] = useState(gameState.player);
-    const [enemy, setEnemy] = useState(gameState.enemy);
-    const [rollFunctions, setRollFunctions] = useState<(() => void)[]>([]);
+    const {state, updateRollResults, handleTakeTurn, handleEndBattle} = useGameLoop(gameState);
 
-    const playerDicesCallback = (functions: (() => void)[]) => {
-        setRollFunctions(functions);
-    }
+    const [playerRollFunctions, setPlayerRollFunctions] =
+        useState<Map<number, StartRollingFunc>>(new Map<number, StartRollingFunc>());
+    const [enemyRollFunctions, setEnemyRollFunctions] =
+        useState<Map<number, StartRollingFunc>>(new Map<number, StartRollingFunc>());
 
-    const handleRoll = () => {
-        rollFunctions.forEach(fn => fn());
+    const [rollButtonDisabled, setRollButtonDisabled] = useState(false);
+
+    const onRollClick = () => {
+        console.log(`player functions count: ${playerRollFunctions.size}`);
+        console.log(`enemy functions count: ${enemyRollFunctions.size}`);
+        const playerRollResults: number[] = [];
+        let resultsCount = 0;
+
+        setRollButtonDisabled(true);
+        playerRollFunctions.forEach((fn, index) => {
+            fn(1200, (result: number) => {
+                playerRollResults[index] = result;
+                resultsCount++;
+                if (resultsCount === playerRollFunctions.size) {
+                    updateRollResults(playerRollResults, 'player');
+                    handleTakeTurn();
+                }
+            });
+        });
+        setRollButtonDisabled(false);
+        console.log(playerRollFunctions.size);
     }
 
     return (
         <div className='battle-screen-container'>
             <div className='creatures-row'>
-                <CreatureAndDices creature={player} dices={player.dices} onRollFunctionsReady={playerDicesCallback}/>
-                <CreatureAndDices creature={enemy} dices={player.dices}/>
+                <CreatureAndDices
+                    creature={state.player}
+                    dices={state.player.dices}
+                    onDicesMount={setPlayerRollFunctions}
+                    onDicesUnmount={setPlayerRollFunctions}
+                />
+                <CreatureAndDices
+                    creature={state.enemy}
+                    dices={state.enemy.dices}
+                    onDicesMount={setEnemyRollFunctions}
+                    onDicesUnmount={setEnemyRollFunctions}
+                />
             </div>
-            <RollButton className='roll-player-dice-button' handleRoll={handleRoll}/>
+            <RollButton className='roll-dice-button' onClick={onRollClick} disabled={rollButtonDisabled}/>
         </div>
     )
 }

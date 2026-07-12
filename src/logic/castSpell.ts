@@ -13,5 +13,6 @@ export function castSpell(spell: Spell, spellContext: SpellContext): GameState {
     const spellResult = spellAction(spellContext);
     const gameState = spellContext.gameState;
     const modifiedSpellResult = applyModifierEffects(spellResult, gameState);
+    console.log('cast spell returning');
     return applySpellResult(modifiedSpellResult, gameState);
 }
