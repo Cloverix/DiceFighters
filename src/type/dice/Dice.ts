@@ -17,7 +17,8 @@ export type DiceEdgeCount = 4 | 6 | 12 | 20
 export class DiceBuilder {
     private readonly id: number;
     private faceCount: DiceEdgeCount;
-    private spellNames: Map<number, string | null>;                 //Null indicates no spell equipped
+    //Null indicates no spell equipped. Key is spell's slot (1-indexed)
+    private spellNames: Map<number, string | null>;
     private sprite: string;
 
     constructor(id: number, faceCount: DiceEdgeCount) {
@@ -67,8 +68,12 @@ export class DiceBuilder {
     build(): Dice {
         const equippedSpells: FixedMap<Spell> = new FixedMap(this.faceCount);
         for (let i = 1; i <= this.faceCount; i++) {
+            /*
             const name = this.spellNames.get(i) ?? spellName.strike;
             equippedSpells.set(spellList[name] ?? spellList[spellName.strike], i - 1);
+            */
+           const name: string | null = this.spellNames.get(i) ?? null;
+           equippedSpells.set(name ? spellList[name] : null, i - 1);
         }
         return {
             id: this.id,

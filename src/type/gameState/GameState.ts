@@ -1,26 +1,27 @@
-import type {Player} from "../creature/Player.ts";
-import type {Enemy} from "../creature/Enemy.ts";
-import type {Effect, EffectAction, EffectContext, EffectReference} from "../effect/Effect.ts";
-import {findEffect} from "../../util/function/findEffect.ts";
-import {effectList} from "../effect/effectList.ts";
-import type {CustomSpellAction, Spell, SpellContext} from "../spell/Spell.ts";
-import {castSpell} from "../../logic/castSpell.ts";
-import {spellList} from "../spell/spellList.ts";
-import {getEquippedSpell} from "../../util/function/getEquippedSpell.ts";
-import {isSlotEmpty} from "../dice/isSlotEmpty.ts";
-import {equipSpell} from "../dice/equipSpell.ts";
-import type {Creature} from "../creature/Creature.ts";
-import type {Dice} from "../dice/Dice.ts";
-import {applyEffectResult} from "../../logic/applyEffectResult.ts";
-import type {Inventory} from "../inventory/Inventory.ts";
+import { applyEffectResult } from "../../logic/applyEffectResult.ts";
+import { castSpell } from "../../logic/castSpell.ts";
+import { findEffect } from "../../util/function/findEffect.ts";
+import { getEquippedSpell } from "../../util/function/getEquippedSpell.ts";
+import type { Creature } from "../creature/Creature.ts";
+import type { Enemy } from "../creature/Enemy.ts";
+import type { Player } from "../creature/Player.ts";
+import type { Dice } from "../dice/Dice.ts";
+import { equipSpell } from "../dice/equipSpell.ts";
+import { isSlotEmpty } from "../dice/isSlotEmpty.ts";
+import type { Effect, EffectAction, EffectContext, EffectReference } from "../effect/Effect.ts";
+import { effectList } from "../effect/effectList.ts";
+import type { Inventory } from "../inventory/Inventory.ts";
+import type { CustomSpellAction, Spell, SpellContext } from "../spell/Spell.ts";
+import { spellList } from "../spell/spellList.ts";
 
 export interface GameState {
     player: Player,
     enemy: Enemy,
     currentTurn: Target,
-    currentRollResults: {               //Order of results matches order of dices
-        player: number[],
-        enemy: number[]
+    //key = dice id, value = roll result
+    currentRollResults: {
+        player: Map<number, number>,
+        enemy: Map<number, number>
     }
     logs: string[]
 }
@@ -175,7 +176,7 @@ export class GameStateBuilder {
                 const { changeSubject, currentDiceIndex, currentSlot, targetDiceIndex, targetSlot } = action;
                 const creature: Player | Enemy = changeSubject === 'player' ? this.state.player : this.state.enemy;
                 const currentDice = creature.dices[currentDiceIndex];
-                const targetDice = creature.dices[targetDiceIndex];
+                let targetDice = creature.dices[targetDiceIndex];
 
                 const spellToMove = getEquippedSpell(currentDice, currentSlot);
                 const successLog = `${spellToMove.name} moved to slot ${targetSlot}!`;
@@ -194,10 +195,15 @@ export class GameStateBuilder {
                 tempDices[currentDiceIndex] = tempDice;
                 const tempCreature: Creature = {...creature, dices: tempDices};
 
+                //If spell is moved on the same dice, targetDice and tempDice are the same.
+                if (currentDiceIndex === targetDiceIndex) {
+                    targetDice = tempDice;
+                } 
                 const newDice: Dice | null = equipSpell(spellToMove, tempCreature, targetDice, targetSlot);
                 if (newDice === null) {
                     return this.addLog(failureLog);
                 }
+                console.log(`changeEquippedSlot: new dice spells: ${[...newDice.equippedSpells.items.values()].map(value => value?.name ?? 'null')}`);
                 const newDices: Dice[] = [...tempDices];
                 newDices[targetDiceIndex] = newDice;
                 const newCreature: Creature = {...tempCreature, dices: newDices};
@@ -243,7 +249,7 @@ export class GameStateBuilder {
         return new GameStateBuilder(newState);
     }
 
-    setRollResults(rollResults: number[], target: Target): GameStateBuilder {
+    setRollResults(rollResults: Map<number, number>, target: Target): GameStateBuilder {
         const newState: GameState = {...this.state};
         newState.currentRollResults = {
             ...newState.currentRollResults,

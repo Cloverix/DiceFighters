@@ -9,9 +9,19 @@ export function applySpellResult(spellResult: SpellResult, gameState: GameState)
         .removeEffects(spellResult.removeFromCaster ?? [], caster)
         .removeEffects(spellResult.removeFromOpponent ?? [], opponent);
 
+    if (spellResult.logMessage) {
+        if (spellResult.logMessage.method === 'message') {
+            builder = builder.addLog(spellResult.logMessage.message);
+        }
+        else {
+            const message = spellResult.logMessage.generator(spellResult, builder.build());
+            builder = builder.addLog(message);
+        }
+    }
+    
     const hitTimes = spellResult.hitTimes ?? 1;
     for (let i = 0; i < hitTimes; i++) {
-        builder = builder.applyDamage(spellResult.damage ?? 1, opponent);
+        builder = builder.applyDamage(spellResult.damage ?? 0, opponent);
     }
 
     builder = builder
@@ -22,16 +32,6 @@ export function applySpellResult(spellResult: SpellResult, gameState: GameState)
     if (spellResult.customSpellActions !== undefined) {
         for (const customSpellAction of spellResult.customSpellActions) {
             builder = builder.applyCustomSpellAction(customSpellAction);
-        }
-    }
-
-    if (spellResult.logMessage) {
-        if (spellResult.logMessage.method === 'message') {
-            builder = builder.addLog(spellResult.logMessage.message);
-        }
-        else {
-            const message = spellResult.logMessage.generator(spellResult, builder.build());
-            builder = builder.addLog(message);
         }
     }
 

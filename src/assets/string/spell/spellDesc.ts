@@ -10,7 +10,7 @@ export const spellDesc = {
     dualWield: 'Trigger spells on X-1 and X+1 slots (this does not apply to Dual wield itself)',
     LightningBolt: 'Deal X damage and apply Stun. If target is wet, deal x1.5 damage',
     ignite: 'Apply Burn X',
-    overTheLimits: 'Deal 2.5X damage and get stunned',
+    overTheLimits: 'Deal 3.5X damage and get stunned',
     sprinkle: 'Become wet',
     preciseCut: 'Deal 3 damage, apply Deep wounds 2',
     scrape: 'Deal X/2 damage',

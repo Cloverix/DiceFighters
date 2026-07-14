@@ -159,11 +159,15 @@ export const chaosBoltAction: SpellAction = (spellContext: SpellContext) => {
 
     const dicesList: Dice[] = spellContext.casterCreature.dices;
     const currentDiceIndex: number = dicesList.findIndex(dice => dice === spellContext.dice)!;
+    console.log(`Current dice index: ${currentDiceIndex}`);
 
     const availableSlots: number[] = getEmptySlots(spellContext.dice);
+    console.log(`Available slots: ${availableSlots}`);
     const targetSlot = availableSlots.length > 0
         ? availableSlots[getRandomInt(0, availableSlots.length - 1)]
         : 1;            //If there are no available slot, pass any occupied slot
+
+    console.log(`Target slot: ${targetSlot}`);
 
     let message: SpellLogMethod | undefined = undefined;
     if (messageText) {

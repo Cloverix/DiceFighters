@@ -23,7 +23,7 @@ export const spellLogGenerator = {
     },
 
     eviscerate: (spellResult: SpellResult): string => {
-        return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName,`eviscerates the enemy, dealing ${spellResult.damage} damage!`);
+        return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName,`eviscerates the enemy, dealing ${spellResult.damage! * (spellResult.hitTimes ?? 1)} damage!`);
     },
     lightningBolt: (spellResult: SpellResult): string => {
         return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName,`cast lightning bolt, dealing ${spellResult.damage} damage and stunning the enemy`);
@@ -61,7 +61,7 @@ export const spellLogGenerator = {
 
     crash: (spellResult: SpellResult, gameState: GameState): string => {
         const target: Target = spellResult.caster === 'player' ? 'enemy' : 'player';
-        const targetName = gameState[target];
+        const targetName = gameState[target].name;
         return constructSpellLogMessage(spellResult.diceValue, spellResult.casterName, `crashes ${targetName}'s armor, dealing ${spellResult.damage} damage`);
     },
 

@@ -3,6 +3,7 @@ import type {Target} from "../../gameState/GameState.ts";
 import {isPlayer} from "../../../util/function/isPlayer.ts";
 import type {EffectReference} from "../../effect/Effect.ts";
 import {effectName} from "../../../assets/string/effect/effectName.ts";
+import { constructSpellLogMessage } from "../../../util/function/constructSpellLogMessage.ts";
 
 export const weakeningChainsAction: SpellAction = (spellContext: SpellContext): SpellResult => {
     const diceValue = spellContext.diceValue;
@@ -19,6 +20,6 @@ export const weakeningChainsAction: SpellAction = (spellContext: SpellContext): 
         casterName: casterName,
         diceValue: diceValue,
         applyToOpponent: [damageDownInstance],
-        logMessage: {method: 'message', message: message}
+        logMessage: {method: 'message', message: constructSpellLogMessage(diceValue, casterName, message)}
     }
 }

@@ -10,7 +10,7 @@ export const overTheLimitsAction: SpellAction = (spellContext: SpellContext) => 
     const caster: Target = isPlayer(spellContext.casterCreature) ? 'player' : 'enemy';
     const casterName = spellContext.casterCreature.name;
 
-    const damage = Math.ceil(diceValue * 2.5);
+    const damage = Math.ceil(diceValue * 3.5);
     const stunInstance: EffectReference = {effectName: effectName.stun};
 
     return {

@@ -15,9 +15,14 @@ export const deepWoundsOnApplyAction: EffectAction = (effectContext: EffectConte
 
     const target: Target = isPlayer(targetCreature) ? 'player' : 'enemy';
     const targetName = targetCreature.name;
+
+    const message: string | undefined = 
+        damageDealt > 0 
+        ? `${targetName} suffered ${damageDealt} damage from deep wounds` 
+        : undefined;
     return {
         target: target,
         damageDealt: damageDealt,
-        logMessage: `${targetName} suffered ${damageDealt} damage from deep wounds`
+        logMessage: message
     }
 }
