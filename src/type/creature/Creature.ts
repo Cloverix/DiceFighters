@@ -19,7 +19,7 @@ export class CreatureBuilder {
     protected creature: Creature;
 
     constructor(id: number) {
-        const starterDice = new DiceBuilder(6).build();
+        const starterDice: Dice = DiceBuilder.instance(6).build();
 
         this.creature = {
             id: id,

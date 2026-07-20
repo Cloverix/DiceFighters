@@ -1,7 +1,6 @@
 import type {Spell} from "../spell/Spell.ts";
 import {FixedMap} from "../../util/class/FixedMap.ts";
 import {spellList} from "../spell/spellList.ts";
-import {spellName} from "../../assets/string/spell/spellName.ts";
 import defaultDiceSprite from "../../assets/sprite/dice/dice-6-side-empty.png"
 import {MAX_DICE_FACES} from "../../assets/constants/numericConstants.ts";
 
@@ -14,7 +13,36 @@ export interface Dice {
 
 export type DiceEdgeCount = 4 | 6 | 12 | 20
 
+//Utility class that automatically assigns unique id to every created dice
 export class DiceBuilder {
+    private static nextId: number = 1;
+
+    private constructor() {}
+
+    static instance(faceCount: DiceEdgeCount): DiceFactory {
+        const instance = new DiceFactory(this.nextId, faceCount);
+        this.nextId++;
+        return instance;
+    }
+}
+
+/*
+export const DiceBuilder: {
+    id: number,
+    instance: (faceCount: DiceEdgeCount) => DiceFactory
+} = {
+    id: 1,
+
+    instance(faceCount: DiceEdgeCount): DiceFactory {
+        if (this.id !== 1) {
+            this.id++;
+        }
+        return new DiceFactory(this.id, faceCount);
+    }
+}
+*/
+
+class DiceFactory {
     private readonly id: number;
     private faceCount: DiceEdgeCount;
     //Null indicates no spell equipped. Key is spell's slot (1-indexed)
@@ -31,22 +59,22 @@ export class DiceBuilder {
         }
     }
 
-    setFaceCount(faceCount: DiceEdgeCount): DiceBuilder {
+    setFaceCount(faceCount: DiceEdgeCount): DiceFactory {
         this.faceCount = faceCount;
         return this;
     }
 
-    setSpellNames(spellNames: Map<number, string | null>): DiceBuilder {
+    setSpellNames(spellNames: Map<number, string | null>): DiceFactory {
         this.spellNames = new Map(spellNames);
         return this;
     }
 
-    setSprite(sprite: string): DiceBuilder {
+    setSprite(sprite: string): DiceFactory {
         this.sprite = sprite;
         return this;
     }
 
-    addSpell(slot: number, spellName: string): DiceBuilder {
+    addSpell(slot: number, spellName: string): DiceFactory {
         if (slot < 1 || slot > MAX_DICE_FACES) {
             return this;
         }
@@ -56,7 +84,7 @@ export class DiceBuilder {
         return this;
     }
 
-    removeSpell(slot: number): DiceBuilder {
+    removeSpell(slot: number): DiceFactory {
         if (slot < 1 || slot > MAX_DICE_FACES) {
             return this;
         }

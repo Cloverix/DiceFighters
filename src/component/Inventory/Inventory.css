@@ -1,0 +1,7 @@
+.inventory-container {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}

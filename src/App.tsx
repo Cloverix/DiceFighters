@@ -1,12 +1,10 @@
-import { useMemo, useState } from "react";
+import {useState} from "react";
 import goblinSprite from "./assets/sprite/creature/goblin.png";
-import { BattleScreen } from "./component/BattleScreen/BattleScreen.tsx";
-import { EnemyBuilder } from "./type/creature/Enemy.ts";
-import { PlayerBuilder } from "./type/creature/Player.ts";
-import { type Dice, DiceBuilder } from "./type/dice/Dice.ts";
-import { type GameState } from "./type/gameState/GameState.ts";
-import { FixedMap } from "./util/class/FixedMap.ts";
-import emptyFaceDice from "./assets/sprite/dice/dice-6-side-empty.png"
+import {BattleScreen} from "./component/BattleScreen/BattleScreen.tsx";
+import {EnemyBuilder} from "./type/creature/Enemy.ts";
+import {PlayerBuilder} from "./type/creature/Player.ts";
+import {type Dice, DiceBuilder} from "./type/dice/Dice.ts";
+import {type GameState} from "./type/gameState/GameState.ts";
 
 function App() {
   const [hp, setHp] = useState(100);
@@ -19,34 +17,16 @@ function App() {
     setHp(Math.min(hp + 20, 100));
   };
 
-  
-  const dice: Dice = useMemo(() => {
-    return {faceCount: 6, equippedSpells: new FixedMap(6), sprite: emptyFaceDice}
-  }, []);
-  
-
-
-  let diceIdCounter = 0;
-  const playerDices: Dice[] = useMemo(() => {
-    const list: Dice[] = [];
-    while (diceIdCounter < 3) {
-      const newDice = new DiceBuilder(diceIdCounter, 6).build();
-      list.push(newDice);
-      diceIdCounter++;
-    }
-    return list;
-  }, []);
-
-  const enemyDices: Dice[] = useMemo(() => {
-    const list: Dice[] = [];
-    while (diceIdCounter < 6) {
-      const newDice = new DiceBuilder(diceIdCounter, 6).build();
-      list.push(newDice);
-      diceIdCounter++;
-    }
-    return list;
-  }, [])
-  
+  const playerDices: Dice[] = [];
+  const enemyDices: Dice[] = [];
+  for (let i = 0; i < 3; i++) {
+    playerDices.push(DiceBuilder.instance(6).build());
+    console.log(`player dice id: ${playerDices[i].id}`);
+  }
+  for (let i = 0; i < 3; i++) {
+    enemyDices.push(DiceBuilder.instance(6).build());
+    console.log(`enemy dice id: ${enemyDices[i].id}`);
+  }
   
   const player = new PlayerBuilder("player")
     .setDices(playerDices)
@@ -63,8 +43,8 @@ function App() {
     enemy: enemy,
     currentTurn: "player",
     currentRollResults: {
-      player: playerDices.map(() => 1),
-      enemy: enemyDices.map(() => 1),
+      player: new Map(playerDices.map(dice => [dice.id, 1])),
+      enemy: new Map(enemyDices.map(dice => [dice.id, 1])),
     },
     logs: [],
   };

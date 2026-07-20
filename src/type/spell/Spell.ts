@@ -11,7 +11,7 @@ export interface Spell {
   category?: SpellCategory[];
   spellSlot: SpellSlot;
   spellAction: SpellAction;
-  sprite?: string;
+  sprite: string;
 }
 
 export type SpellCategory = "unique" | "enemyExclusive" | "playerExclusive";

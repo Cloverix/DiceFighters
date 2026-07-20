@@ -9,13 +9,26 @@
     transition: background-color 0.05s ease, transform 0.1s ease;
 }
 
+.roll-button-container:disabled {
+    pointer-events: none;
+}
+
 .roll-button-container:hover {
     background-color: #6a0000;
+}
+
+.roll-button-container:disabled:hover {
+    background-color: #7a0000;
 }
 
 .roll-button-container:active {
     background-color: #620000;
     transform: scale(0.95);
+}
+
+.roll-button-container:disabled:active {
+    background-color: #7a0000;
+    transform: none;
 }
 
 .roll-button-text {

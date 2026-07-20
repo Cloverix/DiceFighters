@@ -4,7 +4,9 @@ import type { StartRollingFunc } from "./useDiceRoll";
 
 export function useRollButton(
     updateRollResults: (results: Map<number, number>, target: Target) => void,
-    handleTakeTurn: () => void
+    handleTakeTurn: () => void,
+    playerAftercastAnim?: () => void,
+    enemyAftercastAnim?: () => void
 ) {
     const [disabled, setDisabled] = useState(false);
 
@@ -32,13 +34,18 @@ export function useRollButton(
                     enemyResultsCount.current++;
                     if (enemyResultsCount.current === enemyRollFunctions.size) {
                         updateRollResults(enemyRollResults.current, 'enemy');
+
+                        if (enemyAftercastAnim) {
+                            enemyAftercastAnim();
+                        }
+
                         handleTakeTurn();
                         setDisabled(false);
                     }
                 });
-            };
+            }
         }, 500);
-    }, [updateRollResults, handleTakeTurn])
+    }, [updateRollResults, handleTakeTurn, enemyAftercastAnim])
 
     const onRollClick = useCallback((
         playerRollFunctions: Map<number, StartRollingFunc>,
@@ -57,12 +64,17 @@ export function useRollButton(
                 playerResultsCount.current++;
                 if (playerResultsCount.current === playerRollFunctions.size) {
                     updateRollResults(playerRollResults.current, 'player');
+
+                    if (playerAftercastAnim) {
+                        playerAftercastAnim();
+                    }
+
                     handleTakeTurn();
                     onPlayerTurnComplete(enemyRollFunctions);
                 }
             });
-        };
-    }, [disabled, updateRollResults, handleTakeTurn, onPlayerTurnComplete, resetResults]);
+        }
+    }, [disabled, updateRollResults, handleTakeTurn, playerAftercastAnim, onPlayerTurnComplete, resetResults]);
 
     const cleanup = useCallback(() => {
         if (enemyTurnDelayId.current) {

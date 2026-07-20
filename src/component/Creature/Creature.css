@@ -1,4 +1,5 @@
 .creature-sprite {
     image-rendering: pixelated;
     background-color: transparent;
+    transition: transform 0.2s ease-out;
 }
