@@ -1,11 +1,11 @@
-import {type GameState} from "../../type/gameState/GameState.ts";
+import {type GameState} from "../../../type/gameState/GameState.ts";
 import "./BattleScreen.css"
 import {useCallback, useRef, useState} from "react";
 import {CreatureAndDices} from "../CreatureAndDices/CreatureAndDices.tsx";
 import {RollButton} from "../RollButton/RollButton.tsx";
-import {useGameLoop} from "../../hook/useGameLoop.ts";
-import type {StartRollingFunc} from "../../hook/useDiceRoll.ts";
-import {useRollButton} from "../../hook/useRollButton.ts";
+import {useGameLoop} from "../../../hook/useGameLoop.ts";
+import type {StartRollingFunc} from "../../../hook/useDiceRoll.ts";
+import {useRollButton} from "../../../hook/useRollButton.ts";
 
 type BattleScreenProps = {
     gameState: GameState

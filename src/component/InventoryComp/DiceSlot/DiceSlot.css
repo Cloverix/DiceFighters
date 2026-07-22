@@ -1,0 +1,15 @@
+.dice-slot-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 2px black solid;
+    border-radius: 4px;
+    background-color: lightgray;
+}
+
+.empty-slot-img {
+    image-rendering: pixelated;
+    width: 100%;
+    height: 100%;
+    filter: brightness(0);
+}

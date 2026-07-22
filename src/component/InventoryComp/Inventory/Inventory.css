@@ -1,0 +1,18 @@
+.inventory-root {
+    display: flex;
+    width: 100vw;
+    justify-content: space-around;
+}
+
+.dice-inventory-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.inventory-storage {
+    justify-self: flex-end;
+    align-self: flex-start;
+}

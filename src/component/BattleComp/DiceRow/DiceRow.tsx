@@ -1,8 +1,8 @@
-import type {Dice} from "../../type/dice/Dice.ts";
+import type {Dice} from "../../../type/dice/Dice.ts";
 import {Dice as DiceComponent} from "../Dice/Dice.tsx";
 import './DiceRow.css'
 import {useCallback, useRef} from "react";
-import type {StartRollingFunc} from "../../hook/useDiceRoll.ts";
+import type {StartRollingFunc} from "../../../hook/useDiceRoll.ts";
 
 export type DiceRowProps = {
     dices: Dice[],

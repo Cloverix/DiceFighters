@@ -1,0 +1,28 @@
+.slot-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 2px black solid;
+    border-radius: 4px;
+    background-color: lightgray;
+}
+
+.item-sprite {
+    image-rendering: pixelated;
+    width: 100%;
+    height: 100%;
+}
+
+.tooltip {
+    position: fixed;
+    background-color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 2px black dashed;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Courier New', Courier, monospace;
+    max-width: 500px;
+    overflow-wrap: break-word;
+    z-index: 1000;
+    pointer-events: none;
+}

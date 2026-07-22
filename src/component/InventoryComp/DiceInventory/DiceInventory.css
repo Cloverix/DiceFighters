@@ -1,0 +1,39 @@
+.dice-inventory-container {
+    display: grid;
+    height: fit-content;
+    width: fit-content;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px;   
+}
+
+.slot-1 {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.slot-2 {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.slot-3 {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.slot-4 {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.slot-5 {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.slot-6 {
+    grid-column: 4;
+    grid-row: 2;
+}

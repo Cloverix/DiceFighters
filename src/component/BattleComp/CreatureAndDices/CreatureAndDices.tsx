@@ -1,13 +1,13 @@
 import {DiceRow} from "../DiceRow/DiceRow.tsx";
 import './CreatureAndDices.css'
-import type {Dice} from "../../type/dice/Dice.ts";
+import type {Dice} from "../../../type/dice/Dice.ts";
 import {type ComponentPropsWithoutRef, useCallback, useEffect} from "react";
-import type {Creature} from "../../type/creature/Creature.ts";
+import type {Creature} from "../../../type/creature/Creature.ts";
 import {Creature as CreatureComponent} from "../Creature/Creature.tsx";
 import {HealthBar} from "../HealthBar/HealthBar.tsx";
-import type {StartRollingFunc} from "../../hook/useDiceRoll.ts";
-import {useCreatureAnimation} from "../../hook/useCreatureAnimation.ts";
-import {isPlayer} from "../../util/function/isPlayer.ts";
+import type {StartRollingFunc} from "../../../hook/useDiceRoll.ts";
+import {useCreatureAnimation} from "../../../hook/useCreatureAnimation.ts";
+import {isPlayer} from "../../../util/function/isPlayer.ts";
 
 type CreatureAndDicesProps = {
     creature: Creature,

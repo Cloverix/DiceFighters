@@ -1,8 +1,8 @@
-import type {Dice} from "../../type/dice/Dice.ts";
+import type {Dice} from "../../../type/dice/Dice.ts";
 import './Dice.css'
 import {useEffect, useRef} from "react";
-import {type StartRollingFunc, useDiceRoll} from "../../hook/useDiceRoll.ts";
-import initialSprite from "../../assets/sprite/dice/dice-face-1.png"
+import {type StartRollingFunc, useDiceRoll} from "../../../hook/useDiceRoll.ts";
+import initialSprite from "../../../assets/sprite/dice/dice-face-1.png"
 
 export type DiceProps = {
     dice: Dice,
