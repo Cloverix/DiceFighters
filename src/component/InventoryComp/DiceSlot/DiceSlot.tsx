@@ -8,21 +8,31 @@ type DiceSlotProps = {
     slot: number,
     spell: Spell | null,
     className?: string,
+    innerRef?: React.Ref<HTMLDivElement>,
     width?: number,
     height?: number
 }
 
-export function DiceSlot({slot, spell, className, width = 64, height = 64}: DiceSlotProps) {
+export function DiceSlot({slot, spell, className, innerRef, width = 64, height = 64}: DiceSlotProps) {
     const emptyDiceSprite = selectDiceSprite(slot);
 
     return (
         spell
-        ? <InventorySlot spell={spell} className={className} width={width} height={height}/>
+        ? <InventorySlot
+            spell={spell}
+            className={className}
+            innerRef={innerRef}
+            width={width}
+            height={height}/>
         : (
-            <div className={`dice-slot-container ${className ?? ''}`} style={{
-                width: `${width}px`,
-                height: `${height}px`
-            }}>
+            <div
+                className={`dice-slot-container ${className ?? ''}`}
+                ref={innerRef}
+                style={{
+                    width: `${width}px`,
+                    height: `${height}px`
+                }}
+            >
                 <img className={`empty-slot-img slot-${slot}`}
                     alt={`slot-${slot}`}
                     src={emptyDiceSprite ?? defaultEmptyDiceSprite}

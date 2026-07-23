@@ -1,15 +1,16 @@
 import React, { useState } from "react"
-import "./InventorySlot.css"
 import type { Spell } from "../../../type/spell/Spell"
+import "./InventorySlot.css"
 
 type InventorySlotProps = {
     spell: Spell,
     className?: string,
+    innerRef?: React.Ref<HTMLDivElement>,
     width?: number,
     height?: number
 }
 
-export function InventorySlot({spell, className, width = 64, height = 64}: InventorySlotProps) {
+export function InventorySlot({spell, className, innerRef, width = 64, height = 64}: InventorySlotProps) {
     const [isHovered, setIsHovered] = useState(false);
     const [mouseX, setMouseX] = useState(0);
     const [mouseY, setMouseY] = useState(0);
@@ -31,6 +32,7 @@ export function InventorySlot({spell, className, width = 64, height = 64}: Inven
     
     return (
         <div className={`slot-container ${className ?? ''}`}
+        ref={innerRef}
         style={{
             width: `${width}px`,
             height: `${height}px`

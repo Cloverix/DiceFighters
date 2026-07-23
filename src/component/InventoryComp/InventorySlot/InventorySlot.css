@@ -4,7 +4,11 @@
     align-items: center;
     outline: 2px black solid;
     border-radius: 4px;
-    background-color: lightgray;
+    background-color: #d3d3d3;
+}
+
+.slot-container:hover {
+    background-color: #c8c8c8;
 }
 
 .item-sprite {

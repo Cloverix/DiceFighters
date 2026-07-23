@@ -18,7 +18,7 @@ function App() {
     
     const playerDices: Dice[] = [];
     const enemyDices: Dice[] = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
         playerDices.push(DiceBuilder.instance(6).build());
         console.log(`player dice id: ${playerDices[i].id}`);
     }
