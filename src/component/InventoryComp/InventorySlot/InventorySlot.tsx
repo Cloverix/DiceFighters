@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import type { Spell } from "../../../type/spell/Spell"
 import "./InventorySlot.css"
 

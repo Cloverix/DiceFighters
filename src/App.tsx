@@ -18,7 +18,7 @@ function App() {
     
     const playerDices: Dice[] = [];
     const enemyDices: Dice[] = [];
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 2; i++) {
         playerDices.push(DiceBuilder.instance(6).build());
         console.log(`player dice id: ${playerDices[i].id}`);
     }
@@ -28,7 +28,7 @@ function App() {
     }
 
     const spells: Spell[] = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 3; i++) {
         spells.push(spellList[spellName.heavyBlow]);
     }
 
@@ -58,9 +58,6 @@ function App() {
     };
 
     //return <BattleScreen gameState={gameState} />;
-
-
-    const dice: Dice = useMemo(() => DiceBuilder.instance(6).build(), []);
     
     /*
     return (

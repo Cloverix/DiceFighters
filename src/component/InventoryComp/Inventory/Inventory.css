@@ -1,21 +1,28 @@
 .inventory-root {
     display: flex;
     width: 100vw;
+    min-height: 90vh;
     justify-content: space-around;
 }
 
 .dice-inventory-column {
     display: flex;
-    min-height: 100vh;
+    width: 33%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 50px;
+    border: 3px black solid;
+    border-radius: 12px;
 }
 
 .inventory-storage {
     justify-self: flex-end;
-    align-self: flex-start;
+}
+
+.dragging:hover {
+    background-color: #f8f8f8;
+    transition: background-color 0.05s ease;
 }
 
 .ghost-dom {
@@ -24,4 +31,9 @@
     scale: 0.9;
     z-index: 999;
     pointer-events: none;
+}
+
+.dices-text {
+    font-size: 40px;
+    font-family: "Ubuntu Sans Mono";
 }

@@ -13,11 +13,10 @@ type DiceInventoryProps = {
     diceIndex: number,
     onMount: (refs: Map<number, HTMLDivElement>, diceIndex: number) => void,
     onRender: (contents: Map<number, Spell>, diceIndex: number) => void,
-    innerRef?: React.Ref<HTMLDivElement>,
     onMouseDown?: (e: React.MouseEvent) => void
 }
 
-export function DiceInventory({dice, diceIndex, onMount, onRender, innerRef, onMouseDown}: DiceInventoryProps) {
+export function DiceInventory({dice, diceIndex, onMount, onRender, onMouseDown}: DiceInventoryProps) {
     const equippedSpells: FixedMap<Spell> = dice.equippedSpells;
 
     const diceInventoryRef = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -99,7 +98,7 @@ export function DiceInventory({dice, diceIndex, onMount, onRender, innerRef, onM
     }, [equippedSpells, onRender, diceIndex])
     
     return (
-        <div className='dice-inventory-container' ref={innerRef}>
+        <div className='dice-inventory-container'>
             <DiceSlot slot={1} innerRef={ref1} onMouseDown={onMouseDown} spell={equippedSpells.get(0)} className="slot-1"/>
             <DiceSlot slot={2} innerRef={ref2} onMouseDown={onMouseDown} spell={equippedSpells.get(1)} className="slot-2"/>
             <DiceSlot slot={3} innerRef={ref3} onMouseDown={onMouseDown} spell={equippedSpells.get(2)} className="slot-3"/>

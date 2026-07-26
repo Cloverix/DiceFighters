@@ -73,14 +73,13 @@ export function Inventory({player, onEquip, onUnequip}: InventoryProps) {
 
     return (
         <div className='inventory-root'>
-            <div className='dice-inventory-column'>
+            <div className='dice-inventory-column' ref={dicesContRef}>
                 {player.dices.map((dice, index) => <DiceInventory
                     dice={dice}
                     diceIndex={index}
                     key={index}
                     onMount={onDiceInventoryMount}
                     onRender={onDiceInventoryRender}
-                    innerRef={dicesContRef}
                     onMouseDown={onMouseDown}
                 />
                 )}
@@ -88,7 +87,7 @@ export function Inventory({player, onEquip, onUnequip}: InventoryProps) {
             <InventoryStorage
                 inventory={player.inventory}
                 onRender={onInventoryStorageRender}
-                className='inventory-storage'
+                className={`inventory-storage ${isDragging ? 'dragging' : ''}`}
                 innerRef={inventoryContRef}
                 onMouseDown={onMouseDown}
             />

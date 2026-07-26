@@ -55,6 +55,7 @@ export function BattleScreen({gameState}: BattleScreenProps) {
 
     return (
         <div className='battle-screen-container'>
+            
             <div className='creatures-row'>
                 <CreatureAndDices
                     creature={state.player}
@@ -72,6 +73,7 @@ export function BattleScreen({gameState}: BattleScreenProps) {
                 />
             </div>
             <RollButton className='roll-dice-button' onClick={onClick} disabled={disabled}/>
+            
             {isInventoryOpen && (
                 <Inventory player={state.player} onEquip={handleEquipSpell} onUnequip={handleUnequipSpell}/>
             )}

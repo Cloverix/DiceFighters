@@ -1,9 +1,11 @@
 .inventory-storage {
     display: grid;
-    height: 100%;
+    min-height: 100%;
     width: fit-content;
+    min-width: 512px;
     grid-template-columns: repeat(8, 1fr);
     gap: 10px;
     padding: 10px;
     border: 3px black solid;
+    border-radius: 12px;
 }
