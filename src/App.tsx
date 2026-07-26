@@ -76,7 +76,7 @@ function App() {
     )
     */
 
-    return <InventoryComponent player={player}/>
+    return <BattleScreen gameState={gameState}/>
 }
 
 export default App;

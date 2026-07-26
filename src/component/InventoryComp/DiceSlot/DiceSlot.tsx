@@ -9,11 +9,12 @@ type DiceSlotProps = {
     spell: Spell | null,
     className?: string,
     innerRef?: React.Ref<HTMLDivElement>,
+    onMouseDown?: (e: React.MouseEvent) => void,
     width?: number,
     height?: number
 }
 
-export function DiceSlot({slot, spell, className, innerRef, width = 64, height = 64}: DiceSlotProps) {
+export function DiceSlot({slot, spell, className, innerRef, onMouseDown, width = 64, height = 64}: DiceSlotProps) {
     const emptyDiceSprite = selectDiceSprite(slot);
 
     return (
@@ -22,6 +23,7 @@ export function DiceSlot({slot, spell, className, innerRef, width = 64, height =
             spell={spell}
             className={className}
             innerRef={innerRef}
+            onMouseDown={onMouseDown}
             width={width}
             height={height}/>
         : (

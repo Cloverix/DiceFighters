@@ -6,7 +6,7 @@ import type { Creature } from "../creature/Creature.ts";
 import type { Enemy } from "../creature/Enemy.ts";
 import type { Player } from "../creature/Player.ts";
 import type { Dice } from "../dice/Dice.ts";
-import { equipSpell } from "../dice/equipSpell.ts";
+import { equipOnDice } from "../dice/equipOnDice.ts";
 import { isSlotEmpty } from "../dice/isSlotEmpty.ts";
 import type { Effect, EffectAction, EffectContext, EffectReference } from "../effect/Effect.ts";
 import { effectList } from "../effect/effectList.ts";
@@ -187,7 +187,7 @@ export class GameStateBuilder {
                     return this.addLog(failureLog);
                 }
 
-                const tempDice: Dice | null = equipSpell(null, creature, currentDice, currentSlot);
+                const tempDice: Dice | null = equipOnDice(null, creature, currentDice, currentSlot);
                 if (tempDice === null) {
                     return this.addLog(failureLog);
                 }
@@ -199,7 +199,7 @@ export class GameStateBuilder {
                 if (currentDiceIndex === targetDiceIndex) {
                     targetDice = tempDice;
                 } 
-                const newDice: Dice | null = equipSpell(spellToMove, tempCreature, targetDice, targetSlot);
+                const newDice: Dice | null = equipOnDice(spellToMove, tempCreature, targetDice, targetSlot);
                 if (newDice === null) {
                     return this.addLog(failureLog);
                 }

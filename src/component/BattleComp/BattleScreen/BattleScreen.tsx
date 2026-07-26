@@ -6,13 +6,21 @@ import {RollButton} from "../RollButton/RollButton.tsx";
 import {useGameLoop} from "../../../hook/useGameLoop.ts";
 import type {StartRollingFunc} from "../../../hook/useDiceRoll.ts";
 import {useRollButton} from "../../../hook/useRollButton.ts";
+import { Inventory } from "../../InventoryComp/Inventory/Inventory.tsx";
 
 type BattleScreenProps = {
     gameState: GameState
 }
 
 export function BattleScreen({gameState}: BattleScreenProps) {
-    const {state, updateRollResults, handleTakeTurn, handleEndBattle} = useGameLoop(gameState);
+    const {
+        state,
+        updateRollResults,
+        handleTakeTurn,
+        handleEndBattle,
+        handleEquipSpell,
+        handleUnequipSpell
+    } = useGameLoop(gameState);
 
     const [playerRollFunctions, setPlayerRollFunctions] =
         useState<Map<number, StartRollingFunc>>(new Map<number, StartRollingFunc>());
@@ -41,6 +49,10 @@ export function BattleScreen({gameState}: BattleScreenProps) {
         onRollClick(playerRollFunctions, enemyRollFunctions);
     }, [onRollClick, playerRollFunctions, enemyRollFunctions]);
 
+
+    //TODO: for testing
+    const [isInventoryOpen, setIsInventoryOpen] = useState(true);
+
     return (
         <div className='battle-screen-container'>
             <div className='creatures-row'>
@@ -60,6 +72,9 @@ export function BattleScreen({gameState}: BattleScreenProps) {
                 />
             </div>
             <RollButton className='roll-dice-button' onClick={onClick} disabled={disabled}/>
+            {isInventoryOpen && (
+                <Inventory player={state.player} onEquip={handleEquipSpell} onUnequip={handleUnequipSpell}/>
+            )}
         </div>
     )
 }

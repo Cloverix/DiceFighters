@@ -1,15 +1,21 @@
 import { useCallback, useReducer } from "react";
+import { equipSpell } from "../logic/equipSpell.ts";
 import { takeTurn } from "../logic/takeTurn.ts";
+import { unequipSpell } from "../logic/unequipSpell.ts";
 import {
-  type GameState,
   GameStateBuilder,
+  type GameState,
   type Target,
 } from "../type/gameState/GameState.ts";
+import type { Spell } from "../type/spell/Spell.ts";
+import type { EquipMoveData } from "./useInventoryDrag.ts";
 
 type GameLoopAction =
   | { kind: "UpdateRollResults"; rollResults: Map<number, number>; target: Target }
   | { kind: "TakeTurn" }
-  | { kind: "EndBattle" };
+  | { kind: "EndBattle" }
+  | { kind: "equipSpell", spell: Spell, moveData: EquipMoveData }
+  | { kind: "unequipSpell", spell: Spell, diceIndex: number, slot: number }
 
 function gameLoopReducer(
   prevState: GameState,
@@ -26,6 +32,12 @@ function gameLoopReducer(
     }
     case "EndBattle": {
       return prevState; //TODO: add a function that handles after-battle actions (upgrades, etc.)
+    }
+    case "equipSpell": {
+      return equipSpell(prevState, action.spell, action.moveData);
+    }
+    case "unequipSpell": {
+      return unequipSpell(prevState, action.spell, action.diceIndex, action.slot);
     }
   }
 }
@@ -49,6 +61,14 @@ export function useGameLoop(initialState: GameState) {
     dispatch({ kind: "EndBattle" });
   }, []);
 
+  const handleEquipSpell = useCallback((spell: Spell, moveData: EquipMoveData) => {
+    dispatch({kind: "equipSpell", spell: spell, moveData: moveData});
+  }, [])
+
+  const handleUnequipSpell = useCallback((spell: Spell, diceIndex: number, slot: number) => {
+    dispatch({kind: "unequipSpell", spell: spell, diceIndex: diceIndex, slot: slot});
+  }, [])
+
   //Takes a turn automatically when it is enemy's turn
   /*
   useEffect(() => {
@@ -59,5 +79,12 @@ export function useGameLoop(initialState: GameState) {
   }, [state.currentTurn, handleTakeTurn]);
   */
 
-  return { state, updateRollResults, handleTakeTurn, handleEndBattle };
+  return {
+    state,
+    updateRollResults,
+    handleTakeTurn,
+    handleEndBattle,
+    handleEquipSpell,
+    handleUnequipSpell
+  };
 }

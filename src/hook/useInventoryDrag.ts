@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { Spell } from "../type/spell/Spell";
 
 export type IndexaionData = {area: 'inventory', inventoryIndex: number}
@@ -39,8 +39,8 @@ export function useInventoryDrag(
     inventoryContents: Map<number, Spell>, 
     dicesSlots: Map<number, Map<number, HTMLDivElement>>,
     dicesContents: Map<number, Map<number, Spell>>,
-    inventoryContainer: HTMLDivElement,
-    dicesContainer: HTMLDivElement,
+    inventoryContainer: HTMLDivElement | null,
+    dicesContainer: HTMLDivElement | null,
     onEquip: (spell: Spell, moveData: EquipMoveData) => void,
     onUnequip: (spell: Spell, diceIndex: number, slot: number) => void
 ) {
@@ -63,7 +63,7 @@ export function useInventoryDrag(
      * @returns Data about inventory or dice slot, or null if a slot is not targeted
      */
     function determineDomElement(xPos: number, yPos: number): DomElementData | null {        
-        if (isMouseInsideElement(inventoryContainer, xPos, yPos)) {
+        if (inventoryContainer && isMouseInsideElement(inventoryContainer, xPos, yPos)) {
             for (const [index, el] of inventorySlots.entries()) {
                 if (isMouseInsideElement(el, xPos, yPos)) {
                     return {
@@ -74,7 +74,7 @@ export function useInventoryDrag(
                 }
             }
         }
-        else if (isMouseInsideElement(dicesContainer, xPos, yPos)) {
+        else if (dicesContainer && isMouseInsideElement(dicesContainer, xPos, yPos)) {
             for (const [diceIndex, diceElement] of dicesSlots.entries()) {
                 for (const [slot, el] of diceElement.entries()) {
                     if (isMouseInsideElement(el, xPos, yPos)) {
@@ -96,7 +96,12 @@ export function useInventoryDrag(
         const xPos = e.clientX;
         const yPos = e.clientY;
         const domRef: DomElementData | null = determineDomElement(xPos, yPos);
-        if (!domRef || !domRef.content) return;
+        if (!domRef || !domRef.content) {
+            //Remove listeners before exiting function
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+            return;
+        }
 
         setStoredDom(domRef);
         storedDomRef.current = domRef;
@@ -116,7 +121,7 @@ export function useInventoryDrag(
     const onMouseUp = (e: MouseEvent) => {
         if (storedDomRef.current) {
             //Unequip
-            if (isMouseInsideElement(inventoryContainer, e.clientX, e.clientY) &&
+            if (inventoryContainer && isMouseInsideElement(inventoryContainer, e.clientX, e.clientY) &&
                 storedDomRef.current.indices.area === 'dices'
             ) {
                 const spell: Spell = storedDomRef.current.content!;
@@ -125,7 +130,7 @@ export function useInventoryDrag(
                 onUnequip(spell, diceIndex, slot)
             }
             //Equip
-            else if (isMouseInsideElement(dicesContainer, e.clientX, e.clientY)) {
+            else if (dicesContainer && isMouseInsideElement(dicesContainer, e.clientX, e.clientY)) {
                 const targetedDom = determineDomElement(e.clientX, e.clientY);
                 //Checks if mouse is targeting one of actual dice slots
                 if (targetedDom && targetedDom.indices.area === 'dices') {
@@ -160,8 +165,19 @@ export function useInventoryDrag(
         storedDomRef.current = null;
     }
 
+    //Return dummy if some of the containers are not rendered yet
+    if (!inventoryContainer || !dicesContainer) {
+        return {
+            ghostDom: null,
+            ghostX: 0,
+            ghostY: 0,
+            isDragging: false,
+            onMouseDown: () => {}
+        }
+    }
+
     return {
-        ghostDom: storedDom?.content ?? null,
+        ghostSpell: storedDom?.content ?? null,
         ghostX,
         ghostY,
         isDragging: storedDom !== null,
