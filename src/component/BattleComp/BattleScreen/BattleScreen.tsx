@@ -51,29 +51,29 @@ export function BattleScreen({gameState}: BattleScreenProps) {
 
 
     //TODO: for testing
-    const [isInventoryOpen, setIsInventoryOpen] = useState(true);
+    const [isInventoryOpen, setIsInventoryOpen] = useState(false);
 
     return (
-        <div className='battle-screen-container'>
-            
-            <div className='creatures-row'>
-                <CreatureAndDices
-                    creature={state.player}
-                    dices={state.player.dices}
-                    passAftercastAnimation={passPlayerAftercastAnim}
-                    onDicesMount={setPlayerRollFunctions}
-                    onDicesUnmount={setPlayerRollFunctions}
-                />
-                <CreatureAndDices
-                    creature={state.enemy}
-                    dices={state.enemy.dices}
-                    passAftercastAnimation={passEnemyAftercastAnim}
-                    onDicesMount={setEnemyRollFunctions}
-                    onDicesUnmount={setEnemyRollFunctions}
-                />
+        <div className="battle-screen-root">
+            <div className={`battle-screen-container ${isInventoryOpen ? 'in-background' : ''}`}>
+                <div className='creatures-row'>
+                    <CreatureAndDices
+                        creature={state.player}
+                        dices={state.player.dices}
+                        passAftercastAnimation={passPlayerAftercastAnim}
+                        onDicesMount={setPlayerRollFunctions}
+                        onDicesUnmount={setPlayerRollFunctions}
+                    />
+                    <CreatureAndDices
+                        creature={state.enemy}
+                        dices={state.enemy.dices}
+                        passAftercastAnimation={passEnemyAftercastAnim}
+                        onDicesMount={setEnemyRollFunctions}
+                        onDicesUnmount={setEnemyRollFunctions}
+                    />
+                </div>
+                <RollButton className='roll-dice-button' onClick={onClick} disabled={disabled}/>
             </div>
-            <RollButton className='roll-dice-button' onClick={onClick} disabled={disabled}/>
-            
             {isInventoryOpen && (
                 <Inventory player={state.player} onEquip={handleEquipSpell} onUnequip={handleUnequipSpell}/>
             )}

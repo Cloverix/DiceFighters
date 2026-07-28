@@ -1,0 +1,9 @@
+.loot-row-root {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.loot-row-root.disabled {
+    pointer-events: none;
+}

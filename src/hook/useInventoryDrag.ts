@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import type { Spell } from "../type/spell/Spell";
+import { spellName } from "../assets/string/spell/spellName";
 
 export type IndexaionData = {area: 'inventory', inventoryIndex: number}
 | {area: 'dices', diceIndex: number, slot: number}
@@ -132,8 +133,8 @@ export function useInventoryDrag(
             //Equip
             else if (dicesContainer && isMouseInsideElement(dicesContainer, e.clientX, e.clientY)) {
                 const targetedDom = determineDomElement(e.clientX, e.clientY);
-                //Checks if mouse is targeting one of actual dice slots
-                if (targetedDom && targetedDom.indices.area === 'dices') {
+                //Checks if mouse is targeting one of actual dice slots and it's empty
+                if (targetedDom && targetedDom.content?.name === spellName.strike && targetedDom.indices.area === 'dices') {
                     let moveData: EquipMoveData;
                     if (storedDomRef.current.indices.area === 'inventory') {
                         moveData = {

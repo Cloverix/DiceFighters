@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import goblinSprite from "./assets/sprite/creature/goblin.png";
 import { spellName } from "./assets/string/spell/spellName.ts";
 import { BattleScreen } from "./component/BattleComp/BattleScreen/BattleScreen.tsx";
@@ -13,9 +13,15 @@ import type { Inventory } from "./type/inventory/Inventory.ts";
 import type { Spell } from "./type/spell/Spell.ts";
 import { spellList } from "./type/spell/spellList.ts";
 import { Inventory as InventoryComponent } from "./component/InventoryComp/Inventory/Inventory.tsx";
+import { LootSlot } from "./component/LootComp/LootSlot/LootSlot.tsx";
+import { LootRow } from "./component/LootComp/LootRow/LootRow.tsx";
+import { selectLootOptions } from "./util/function/selectLootOptions.ts";
+import { LootScreen } from "./component/LootComp/LootScreen/LootScreen.tsx";
+import { InventoryButton } from "./component/Shared/InventroyButton/InventoryButton.tsx";
+import { useLootGrabAnimation } from "./hook/useLootGrabAnimation.ts";
 
 function App() {
-    
+    /*
     const playerDices: Dice[] = [];
     const enemyDices: Dice[] = [];
     for (let i = 0; i < 2; i++) {
@@ -57,23 +63,26 @@ function App() {
         logs: [],
     };
 
-    //return <BattleScreen gameState={gameState} />;
-    
-    /*
-    return (
-        <div className='root-el' style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px'
-        }}>
-            <InventoryStorage inventory={inventory}/>
-            <DiceSlot slot={1} spell={null}/>
-            <DiceInventory dice={dice}/>
-        </div>
-    )
+    return <BattleScreen gameState={gameState}/>
     */
 
-    return <BattleScreen gameState={gameState}/>
+    const spell: Spell = useMemo(() => spellList[spellName.heavyBlow], []);
+    const lootList = useMemo(() => [spell, spell, spell], [spell]);
+
+    const [isOpened, setIsOpened] = useState(false);
+    const onClick = useCallback(() => {
+        setIsOpened(!isOpened);
+    }, [isOpened]);
+
+    return <div style={{
+        display: 'flex',
+        width: '100vw',
+        height: '100vh',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }}>
+        <LootScreen lootList={lootList}/>
+    </div>
 }
 
 export default App;

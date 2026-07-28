@@ -1,5 +1,7 @@
 .inventory-root {
     display: flex;
+    position: absolute;
+    z-index: 100;
     width: 100vw;
     min-height: 90vh;
     justify-content: space-around;
@@ -21,7 +23,7 @@
 }
 
 .dragging:hover {
-    background-color: #f8f8f8;
+    background-color: #f8f8f880;
     transition: background-color 0.05s ease;
 }
 

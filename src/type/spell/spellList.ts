@@ -50,7 +50,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.spark,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: sparkAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.healingSalve]: {
@@ -59,7 +59,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.healingSalve,
     spellSlot: SpellSlotOptions.exactSlot([3, 6, 9, 12]),
     spellAction: healingSalveAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.reap]: {
@@ -68,7 +68,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.reap,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: reapAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.leftHook]: {
@@ -78,7 +78,7 @@ export const spellList: Record<string, Spell> = {
     category: ["unique"],
     spellSlot: SpellSlotOptions.oddSlot(),
     spellAction: leftHookAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.rightHook]: {
@@ -88,7 +88,7 @@ export const spellList: Record<string, Spell> = {
     category: ["unique"],
     spellSlot: SpellSlotOptions.evenSlot(),
     spellAction: rightHookAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.eviscerate]: {
@@ -97,7 +97,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.eviscerate,
     spellSlot: SpellSlotOptions.exactSlot([5]),
     spellAction: eviscerateAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.dualWield]: {
@@ -106,7 +106,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.dualWield,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: dualCastAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.lightningBolt]: {
@@ -115,7 +115,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.LightningBolt,
     spellSlot: SpellSlotOptions.exactSlot([4, 5, 6, 10, 11, 12]),
     spellAction: lightningBoltAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.ignite]: {
@@ -124,7 +124,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.ignite,
     spellSlot: SpellSlotOptions.rangesSlot([1, 5]),
     spellAction: igniteAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.overTheLimits]: {
@@ -133,7 +133,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.overTheLimits,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: overTheLimitsAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.sprinkle]: {
@@ -142,7 +142,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.sprinkle,
     spellSlot: SpellSlotOptions.exactSlot([1, 2]),
     spellAction: sprinkleAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.preciseCut]: {
@@ -151,7 +151,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.preciseCut,
     spellSlot: SpellSlotOptions.evenSlot(),
     spellAction: preciseCutAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.scrape]: {
@@ -161,7 +161,7 @@ export const spellList: Record<string, Spell> = {
     category: ["enemyExclusive"],
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: scrapeAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.chaosBolt]: {
@@ -170,7 +170,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.chaosBolt,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: chaosBoltAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.curse]: {
@@ -179,7 +179,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.curse,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: curseAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.crash]: {
@@ -188,7 +188,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.crash,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: crashAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.weakeningChains]: {
@@ -197,7 +197,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.weakeningChains,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: weakeningChainsAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.waterSwipe]: {
@@ -206,7 +206,7 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.waterSwipe,
     spellSlot: SpellSlotOptions.anySlot(),
     spellAction: waterSwipeAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 
   [spellName.prepare]: {
@@ -215,6 +215,6 @@ export const spellList: Record<string, Spell> = {
     desc: spellDesc.prepare,
     spellSlot: SpellSlotOptions.evenSlot(),
     spellAction: prepareAction,
-    sprite: "", //TODO: add sprite
+    sprite: heavyBlowImage, //TODO: add sprite
   },
 };

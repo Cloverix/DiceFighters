@@ -1,0 +1,16 @@
+.inventory-button-container {
+    transition: scale 0.15s ease;
+    z-index: 200;
+}
+
+.inventory-button-container:hover {
+    scale: 1.1;
+}
+
+.inventory-button-img {
+    image-rendering: pixelated;
+    scale: 6;
+}
+
+.inventory-button-img.opened {
+}

@@ -1,0 +1,20 @@
+.loot-screen-root {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+strong, p {
+    font-family: 'Courier New', Courier, monospace;
+    pointer-events: none;
+}
+
+.loot-title {
+    font-size: 3rem;
+}
+
+.loot-choose-text, .healed-to-full-text {
+    font-size: 1.5rem;
+}

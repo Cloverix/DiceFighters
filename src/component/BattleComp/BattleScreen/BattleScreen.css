@@ -1,8 +1,19 @@
+.battle-screen-root {
+    display: flex;
+}
+
 .battle-screen-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 100vh;
+    min-width: 100vw;
+}
+
+.battle-screen-container.in-background {
+    filter: blur(8px) grayscale(20%);
+    transition: filter 0.05s ease;
+    pointer-events: none; 
 }
 
 .creatures-row {

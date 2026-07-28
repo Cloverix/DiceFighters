@@ -8,7 +8,7 @@
 }
 
 .slot-container:hover {
-    background-color: #c8c8c8;
+    background-color: #f8f8f880;
     cursor: grab
 }
 
