@@ -1,0 +1,6 @@
+.indicator {
+    background: linear-gradient(-10deg, #bd0202 10%, red);
+    overflow: hidden;
+    border-radius: 50%;
+    z-index: 300;
+}

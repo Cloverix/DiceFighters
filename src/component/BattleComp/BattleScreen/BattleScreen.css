@@ -10,7 +10,7 @@
     min-width: 100vw;
 }
 
-.battle-screen-container.in-background {
+.in-background {
     filter: blur(8px) grayscale(20%);
     transition: filter 0.05s ease;
     pointer-events: none; 

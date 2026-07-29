@@ -21,7 +21,6 @@ import { InventoryButton } from "./component/Shared/InventroyButton/InventoryBut
 import { useLootGrabAnimation } from "./hook/useLootGrabAnimation.ts";
 
 function App() {
-    /*
     const playerDices: Dice[] = [];
     const enemyDices: Dice[] = [];
     for (let i = 0; i < 2; i++) {
@@ -64,8 +63,8 @@ function App() {
     };
 
     return <BattleScreen gameState={gameState}/>
-    */
 
+    /*
     const spell: Spell = useMemo(() => spellList[spellName.heavyBlow], []);
     const lootList = useMemo(() => [spell, spell, spell], [spell]);
 
@@ -83,6 +82,7 @@ function App() {
     }}>
         <LootScreen lootList={lootList}/>
     </div>
+    */
 }
 
 export default App;

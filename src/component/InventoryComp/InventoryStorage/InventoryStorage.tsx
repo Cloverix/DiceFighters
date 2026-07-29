@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import type {Inventory} from "../../../type/inventory/Inventory.ts";
-import {InventorySlot} from "../InventorySlot/InventorySlot.tsx";
-import "./InventoryStorage.css"
+import type { Inventory } from "../../../type/inventory/Inventory.ts";
 import type { Spell } from "../../../type/spell/Spell.ts";
+import { InventorySlot } from "../InventorySlot/InventorySlot.tsx";
+import "./InventoryStorage.css";
 
 type InventoryProps = {
     inventory: Inventory,
-    onRender: (refs: Map<number, HTMLDivElement>, contents: Map<number, Spell>) => void
+    onRender: (refs: Map<number, HTMLDivElement>, contents: Map<number, Spell>) => void,
     className?: string,
     innerRef?: React.Ref<HTMLDivElement>,
     onMouseDown?: (e: React.MouseEvent) => void
@@ -37,9 +37,10 @@ export function InventoryStorage({inventory, onRender, className, innerRef, onMo
         <div className={`inventory-storage ${className ?? ''}`} ref={innerRef}>
             {inventory.storedSpells.map((spell, index) => {
                 return <InventorySlot
+                    key={index}
+                    slotIndex={index}
                     innerRef={slotRef(index)}
                     onMouseDown={onMouseDown}
-                    key={index}
                     spell={spell}/>
                 })}
         </div>

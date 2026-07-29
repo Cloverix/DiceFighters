@@ -7,8 +7,9 @@ import {HP_PER_UPGRADE} from "../assets/constants/numericConstants.ts";
  * @return - updated GameState
  */
 export function upgradePlayer(state: GameState): GameState {
-    const oldMaxHp = state.player.maxHp;
+    const newMaxHp = state.player.maxHp + HP_PER_UPGRADE
     return new GameStateBuilder(state)
-        .setMaxHp('player', oldMaxHp + HP_PER_UPGRADE)
+        .setMaxHp('player', newMaxHp)
+        .applyHealing(newMaxHp, 'player')
         .build();
 }

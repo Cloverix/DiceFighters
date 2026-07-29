@@ -4,12 +4,16 @@
 }
 
 .inventory-button-container:hover {
-    scale: 1.1;
+    scale: 1.1 !important;
+}
+
+.inventory-button-container:active {
+    scale: 1.2 !important;
 }
 
 .inventory-button-img {
     image-rendering: pixelated;
-    scale: 6;
+    /*scale: 6;*/
 }
 
 .inventory-button-img.opened {

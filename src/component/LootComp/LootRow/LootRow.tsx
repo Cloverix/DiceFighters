@@ -6,20 +6,24 @@ type LootRowProps = {
     lootList: Spell[],
     chosenLootIndex: number | null,
     onChoose?: (el: HTMLDivElement | null, lootIndex: number) => void,
-    animatedStyle?: React.CSSProperties,
+    chosenStyle?: React.CSSProperties,
+    disappearStyle?: React.CSSProperties,
     disabled?: boolean
 }
 
-export function LootRow({lootList, chosenLootIndex, onChoose, animatedStyle, disabled}: LootRowProps) {
+export function LootRow({lootList, chosenLootIndex, onChoose, chosenStyle, disappearStyle, disabled}: LootRowProps) {
     return (
         <div className={`loot-row-root ${disabled ? 'disabled' : ''}`}>
             {lootList.map((spell, index) => <LootSlot
                 key={index}
                 spell={spell}
                 lootIndex={index}
-                isChosen={chosenLootIndex === index}
                 refCallback={onChoose}
-                animatedStyle={animatedStyle}
+                style={
+                    chosenLootIndex !== null
+                    ? (chosenLootIndex === index ? chosenStyle : disappearStyle)
+                    : undefined
+                }
                 />
             )}
         </div>

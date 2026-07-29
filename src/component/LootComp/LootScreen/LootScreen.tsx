@@ -1,41 +1,54 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { HP_PER_UPGRADE } from "../../../assets/constants/numericConstants"
-import { useLootGrabAnimation } from "../../../hook/useLootGrabAnimation"
 import type { Spell } from "../../../type/spell/Spell"
-import { InventoryButton } from "../../Shared/InventroyButton/InventoryButton"
 import { LootRow } from "../LootRow/LootRow"
 import "./LootScreen.css"
 
 type LootScreenProps = {
-    lootList: Spell[]
+    lootList: Spell[],
+    startAnimation?: () => void,
+    onChoiceDone?: (chosenLoot: HTMLDivElement | null) => void,
+    chosenItemStyle?: React.CSSProperties,
+    itemDisappearStyle?: React.CSSProperties,
 }
 
-export function LootScreen({lootList}: LootScreenProps) {
-    const chosenLootRef = useRef<HTMLDivElement | null>(null);
-    const inventoryButtonRef = useRef<HTMLDivElement | null>(null);
+export function LootScreen({lootList, startAnimation, onChoiceDone, chosenItemStyle, itemDisappearStyle}: LootScreenProps) {
+    //const chosenLootRef = useRef<HTMLDivElement | null>(null);
 
     const [chosenLootIndex, setChosenLootIndex] = useState<number | null>(null);
 
-    const animationTimeSec = useMemo(() => 0.5, []);
+    //const animationTimeSec = useMemo(() => 0.5, []);
 
+    /*
     const onChoose = useCallback((el: HTMLDivElement | null, lootIndex: number) => {
         chosenLootRef.current = el;
         setChosenLootIndex(lootIndex);
     }, []);
+    */
 
+    const onChoose = useCallback((el: HTMLDivElement | null, lootIndex: number) => {
+        if (onChoiceDone) {
+            onChoiceDone(el);
+        }
+        setChosenLootIndex(lootIndex);
+    }, [onChoiceDone]);
+
+    /*
     const {
         translateX,
         translateY,
-        rotateRad,
+        lootRotate,
         lootScale,
         lootOpacity,
+        otherRotateY,
         inventoryScale,
         startAnimation
-    } = useLootGrabAnimation(chosenLootRef, inventoryButtonRef, animationTimeSec);
+    } = useLootGrabAnimation(chosenLootRef, inventoryButtonRef, animationTimeSec, () => setNewLootIndicator(true));
+    */
 
     //Start animation after first render on which loot is chosen
     useEffect(() => {
-        if (chosenLootIndex !== null) {
+        if (startAnimation && chosenLootIndex !== null) {
             startAnimation()
         }
     }, [chosenLootIndex, startAnimation])
@@ -55,21 +68,10 @@ export function LootScreen({lootList}: LootScreenProps) {
                 lootList={lootList}
                 chosenLootIndex={chosenLootIndex}
                 onChoose={onChoose}
-                animatedStyle={{
-                    transform: `translate(${translateX}px, ${translateY}px) rotate(${rotateRad}rad) scale(${lootScale})`,
-                    opacity: lootOpacity,
-                    pointerEvents: 'none',
-                    transition: `transform ${animationTimeSec}s ease-in, scale ${animationTimeSec}s ease-in`
-                }}
+                chosenStyle={chosenItemStyle}
+                disappearStyle={itemDisappearStyle}
                 disabled={chosenLootIndex !== null}
             />
-            {/*TODO: for testing*/}
-            <InventoryButton isOpened={false} onClick={() => {}} innerRef={inventoryButtonRef} style={{
-                scale: inventoryScale,
-                position: 'fixed',
-                top: '90vh',
-                left: '90vw'
-            }}/>
         </div>
     )
 }

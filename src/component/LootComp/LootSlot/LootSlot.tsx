@@ -5,12 +5,11 @@ import "./LootSlot.css";
 type LootSlotProps = {
     spell: Spell,
     lootIndex: number,
-    isChosen: boolean,
     refCallback?: (el: HTMLDivElement | null, lootIndex: number) => void,
-    animatedStyle?: React.CSSProperties
+    style?: React.CSSProperties
 }
 
-export function LootSlot({spell, lootIndex, isChosen, refCallback, animatedStyle}: LootSlotProps) {
+export function LootSlot({spell, lootIndex, refCallback, style}: LootSlotProps) {
     const slotRef = useRef<HTMLDivElement | null>(null);
 
     const onClick = useCallback(() => {
@@ -21,7 +20,7 @@ export function LootSlot({spell, lootIndex, isChosen, refCallback, animatedStyle
 
     return (
         <div className="loot-slot-root"
-            style={isChosen ? animatedStyle : undefined}
+            style={style}
             ref={slotRef}
             onClick={onClick}
         >

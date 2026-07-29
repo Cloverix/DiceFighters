@@ -14,7 +14,7 @@
 
 .loot-slot-root:hover {
     background-color: #d0d0d080;
-    transform: translateY(-15px);
+    transform: translateY(-15px) !important;
     transition: transform 0.2s ease, background-color 0.1s ease;
     cursor: pointer;
 }

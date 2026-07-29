@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Coords = {x: number, y: number}
 
 export function useLootGrabAnimation(
-    lootElementRef: React.RefObject<HTMLDivElement | null>,
-    inventoryButtonRef: React.RefObject<HTMLDivElement | null>,
-    animationTimeSec: number
+    lootEl: HTMLDivElement | null,
+    inventoryButtonEl: HTMLDivElement | null,
+    animationTimeSec: number,
+    onEndAnimation?: () => void
 ) {
 
     function getCenterCoordinates(el: HTMLDivElement): Coords {
@@ -17,18 +18,19 @@ export function useLootGrabAnimation(
 
     const [translateX, setTranslateX] = useState(0);
     const [translateY, setTranslateY] = useState(0);
-    const [rotateRad, setRotateRad] = useState(0);
+    const [lootRotate, setLootRotate] = useState(0);    //In radians
     const [lootScale, setLootScale] = useState(1);
     const [lootOpacity, setLootOpacity] = useState(1);
+    const [otherRotateY, setOtherRotateY] = useState(0);    //In radians
     const [inventoryScale, setInventoryScale] = useState(1);
     const animationTimeoutId = useRef<number | null>(null);
     const innerTimeoutId = useRef<number | null>(null);
 
     const startAnimation = useCallback(() => {
-        if (!lootElementRef.current || !inventoryButtonRef.current) return;
+        if (!lootEl || !inventoryButtonEl) return;
         
-        const lootCenter = getCenterCoordinates(lootElementRef.current);
-        const inventoryCenter = getCenterCoordinates(inventoryButtonRef.current);
+        const lootCenter = getCenterCoordinates(lootEl);
+        const inventoryCenter = getCenterCoordinates(inventoryButtonEl);
 
         if (animationTimeoutId.current) {
             clearTimeout(animationTimeoutId.current);
@@ -43,18 +45,23 @@ export function useLootGrabAnimation(
         const dy = inventoryCenter.y - lootCenter.y;
         setTranslateX(dx);
         setTranslateY(dy);
-        setRotateRad(Math.atan2(dy, dx));
+        setLootRotate(Math.atan2(dy, dx));
         setLootScale(0.05);
+        setOtherRotateY(Math.PI / 2);
 
         animationTimeoutId.current = setTimeout(() => {
             setInventoryScale(1.15);
             setLootOpacity(0);
 
+            if (onEndAnimation) {
+                onEndAnimation();
+            }
+
             innerTimeoutId.current = setTimeout(() => {
                 setInventoryScale(1);
             }, 150)
         }, animationTimeSec * 1000);
-    }, [animationTimeSec, inventoryButtonRef, lootElementRef]);
+    }, [animationTimeSec, inventoryButtonEl, lootEl, onEndAnimation]);
 
     useEffect(() => {
         return () => {
@@ -67,5 +74,5 @@ export function useLootGrabAnimation(
         }
     }, [])
 
-    return {translateX, translateY, rotateRad, lootScale, lootOpacity, inventoryScale, startAnimation};
+    return {translateX, translateY, lootRotate, lootScale, lootOpacity, otherRotateY, inventoryScale, startAnimation};
 }

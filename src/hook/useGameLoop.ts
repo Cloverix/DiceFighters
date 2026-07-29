@@ -16,6 +16,7 @@ type GameLoopAction =
   | { kind: "EndBattle" }
   | { kind: "equipSpell", spell: Spell, moveData: EquipMoveData }
   | { kind: "unequipSpell", spell: Spell, diceIndex: number, slot: number }
+  | { kind: "addToInventory", spell: Spell}
 
 function gameLoopReducer(
   prevState: GameState,
@@ -38,6 +39,9 @@ function gameLoopReducer(
     }
     case "unequipSpell": {
       return unequipSpell(prevState, action.spell, action.diceIndex, action.slot);
+    }
+    case "addToInventory": {
+      return new GameStateBuilder(prevState).addSpellToInventory(action.spell).build();
     }
   }
 }
@@ -63,21 +67,15 @@ export function useGameLoop(initialState: GameState) {
 
   const handleEquipSpell = useCallback((spell: Spell, moveData: EquipMoveData) => {
     dispatch({kind: "equipSpell", spell: spell, moveData: moveData});
-  }, [])
+  }, []);
 
   const handleUnequipSpell = useCallback((spell: Spell, diceIndex: number, slot: number) => {
     dispatch({kind: "unequipSpell", spell: spell, diceIndex: diceIndex, slot: slot});
-  }, [])
+  }, []);
 
-  //Takes a turn automatically when it is enemy's turn
-  /*
-  useEffect(() => {
-    if (state.currentTurn === "enemy" && !checkWinCondition(state)) {
-      const timerId = setTimeout(() => handleTakeTurn(), 1000);
-      return () => clearTimeout(timerId);
-    }
-  }, [state.currentTurn, handleTakeTurn]);
-  */
+  const handleAddToInventory = useCallback((spell: Spell) => {
+    dispatch({kind: "addToInventory", spell: spell});
+  }, []); 
 
   return {
     state,
@@ -85,6 +83,7 @@ export function useGameLoop(initialState: GameState) {
     handleTakeTurn,
     handleEndBattle,
     handleEquipSpell,
-    handleUnequipSpell
+    handleUnequipSpell,
+    handleAddToInventory
   };
 }
