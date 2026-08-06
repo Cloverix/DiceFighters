@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { HP_PER_UPGRADE } from "../../../assets/constants/numericConstants"
 import type { Spell } from "../../../type/spell/Spell"
 import { LootRow } from "../LootRow/LootRow"
@@ -6,65 +6,54 @@ import "./LootScreen.css"
 
 type LootScreenProps = {
     lootList: Spell[],
+    className?: string,
     startAnimation?: () => void,
     onChoiceDone?: (chosenLoot: HTMLDivElement | null) => void,
     chosenItemStyle?: React.CSSProperties,
     itemDisappearStyle?: React.CSSProperties,
+    onProceedButtonClick?: () => void
 }
 
-export function LootScreen({lootList, startAnimation, onChoiceDone, chosenItemStyle, itemDisappearStyle}: LootScreenProps) {
-    //const chosenLootRef = useRef<HTMLDivElement | null>(null);
-
+export function LootScreen({lootList, className, startAnimation, onChoiceDone, chosenItemStyle, itemDisappearStyle}: LootScreenProps) {
     const [chosenLootIndex, setChosenLootIndex] = useState<number | null>(null);
+    const [choiceDone, setChoiceDone] = useState(false);
 
-    //const animationTimeSec = useMemo(() => 0.5, []);
-
-    /*
-    const onChoose = useCallback((el: HTMLDivElement | null, lootIndex: number) => {
-        chosenLootRef.current = el;
-        setChosenLootIndex(lootIndex);
-    }, []);
-    */
+    const hasAnimated = useRef(false);
 
     const onChoose = useCallback((el: HTMLDivElement | null, lootIndex: number) => {
         if (onChoiceDone) {
             onChoiceDone(el);
         }
         setChosenLootIndex(lootIndex);
+        setChoiceDone(true);
     }, [onChoiceDone]);
-
-    /*
-    const {
-        translateX,
-        translateY,
-        lootRotate,
-        lootScale,
-        lootOpacity,
-        otherRotateY,
-        inventoryScale,
-        startAnimation
-    } = useLootGrabAnimation(chosenLootRef, inventoryButtonRef, animationTimeSec, () => setNewLootIndicator(true));
-    */
 
     //Start animation after first render on which loot is chosen
     useEffect(() => {
-        if (startAnimation && chosenLootIndex !== null) {
+        if (startAnimation && chosenLootIndex !== null && !hasAnimated.current) {
             startAnimation()
+            hasAnimated.current = true;
         }
     }, [chosenLootIndex, startAnimation])
 
     return (
-        <div className="loot-screen-root">
+        <div className={`loot-screen-root ${className ?? ''}`}>
             <strong className="loot-title">
-                {`You gained ${HP_PER_UPGRADE} max hp`}
+                {'You won the battle!'}
             </strong>
             <p className="healed-to-full-text">
-                You were healed to full
+                {`You gained ${HP_PER_UPGRADE} max hp and were healed to full`}
             </p>
             <p className="loot-choose-text">
                 Choose one of the following spells:
             </p>
-            <LootRow
+            {choiceDone
+            ? <div className="proceed-button-container" onClick={() => {}}>
+                <span className="proceed-button-text">
+                    Proceed
+                </span>
+            </div>
+            : <LootRow
                 lootList={lootList}
                 chosenLootIndex={chosenLootIndex}
                 onChoose={onChoose}
@@ -72,6 +61,7 @@ export function LootScreen({lootList, startAnimation, onChoiceDone, chosenItemSt
                 disappearStyle={itemDisappearStyle}
                 disabled={chosenLootIndex !== null}
             />
+            }
         </div>
     )
 }

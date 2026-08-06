@@ -6,6 +6,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.align-to-screen-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     min-height: 100vh;
     min-width: 100vw;
 }

@@ -12,6 +12,7 @@ import type { Spell } from "../../../type/spell/Spell.ts";
 import { selectLootOptions } from "../../../util/function/selectLootOptions.ts";
 import { useLootGrabAnimation } from "../../../hook/useLootGrabAnimation.ts";
 import { InventoryButton } from "../../Shared/InventroyButton/InventoryButton.tsx";
+import { LOOT_COUNT } from "../../../assets/constants/numericConstants.ts";
 
 type BattleScreenProps = {
     gameState: GameState
@@ -88,58 +89,64 @@ export function BattleScreen({gameState}: BattleScreenProps) {
     const [isInventoryOpen, setIsInventoryOpen] = useState(false);
     const [isLootOpen, setIsLootOpen] = useState(false);
 
+    console.log(`isLootOpen: ${state.battleStatus === 'playerWon'}`);
+
     const [lootList, setLootList] = useState<Spell[]>([]);
-
+    
     useEffect(() => {
-        if (isLootOpen) {
-            setLootList(selectLootOptions(3));
+        if (state.battleStatus === 'playerWon') {
+            const timeoutId = setTimeout(() => setIsLootOpen(true), animationTimeSec * 1000);
+            return () => clearTimeout(timeoutId);
         }
-    }, [isLootOpen]);
-
+    }, [state.battleStatus, animationTimeSec, isLootOpen]);
+    
     useEffect(() => {
-        if (gameState.enemy.hp <= 0 && !isLootOpen) {
-            setIsLootOpen(true);
+        if (state.battleStatus === 'playerWon') {
+            setLootList(selectLootOptions(LOOT_COUNT));
         }
-    }, [gameState.enemy.hp, isLootOpen]);
+    }, [state.battleStatus]);
 
     return (
         <div className="battle-screen-root">
-            {isLootOpen
-            ? <LootScreen
-                lootList={lootList}
-                startAnimation={startAnimation}
-                onChoiceDone={chosenLootRef}
-                chosenItemStyle={{
-                    transform: `translate(${translateX}px, ${translateY}px) rotate(${lootRotate}rad) scale(${lootScale})`,
-                    opacity: lootOpacity,
-                    pointerEvents: 'none',
-                    transition: `transform ${animationTimeSec}s ease-in, scale ${animationTimeSec}s ease-in`
-                }}
-                itemDisappearStyle={{
-                    transform: `rotateY(${otherRotateY}rad)`,
-                    transition: `transform ${animationTimeSec}s ease-in`
-                }}
-            />
-            : <div className={`battle-screen-container ${isInventoryOpen ? 'in-background' : ''}`}>
-                <div className='creatures-row'>
-                    <CreatureAndDices
-                        creature={state.player}
-                        dices={state.player.dices}
-                        passAftercastAnimation={passPlayerAftercastAnim}
-                        onDicesMount={setPlayerRollFunctions}
-                        onDicesUnmount={setPlayerRollFunctions}
-                    />
-                    <CreatureAndDices
-                        creature={state.enemy}
-                        dices={state.enemy.dices}
-                        passAftercastAnimation={passEnemyAftercastAnim}
-                        onDicesMount={setEnemyRollFunctions}
-                        onDicesUnmount={setEnemyRollFunctions}
-                    />
+            <div className={`align-to-screen-center ${isInventoryOpen ? 'in-background' : ''}`}>
+                {isLootOpen
+                ? <LootScreen
+                    lootList={lootList}
+                    className={`align-to-screen-center ${isInventoryOpen ? 'in-background' : ''}`}
+                    startAnimation={startAnimation}
+                    onChoiceDone={chosenLootRef}
+                    chosenItemStyle={{
+                        transform: `translate(${translateX}px, ${translateY}px) rotate(${lootRotate}rad) scale(${lootScale})`,
+                        opacity: lootOpacity,
+                        pointerEvents: 'none',
+                        transition: `transform ${animationTimeSec}s ease-in, scale ${animationTimeSec}s ease-in`
+                    }}
+                    itemDisappearStyle={{
+                        transform: `rotateY(${otherRotateY}rad)`,
+                        transition: `transform ${animationTimeSec}s ease-in`
+                    }}
+                />
+                : <div className="battle-screen-container">
+                    <div className='creatures-row'>
+                        <CreatureAndDices
+                            creature={state.player}
+                            dices={state.player.dices}
+                            passAftercastAnimation={passPlayerAftercastAnim}
+                            onDicesMount={setPlayerRollFunctions}
+                            onDicesUnmount={setPlayerRollFunctions}
+                        />
+                        <CreatureAndDices
+                            creature={state.enemy}
+                            dices={state.enemy.dices}
+                            passAftercastAnimation={passEnemyAftercastAnim}
+                            onDicesMount={setEnemyRollFunctions}
+                            onDicesUnmount={setEnemyRollFunctions}
+                        />
+                    </div>
+                    <RollButton className='roll-dice-button' onClick={onClick} disabled={disabled}/>
                 </div>
-                <RollButton className='roll-dice-button' onClick={onClick} disabled={disabled}/>
+                }
             </div>
-            }
             {isInventoryOpen && (
                 <Inventory player={state.player} onEquip={handleEquipSpell} onUnequip={handleUnequipSpell}/>
             )}

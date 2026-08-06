@@ -18,3 +18,43 @@ strong, p {
 .loot-choose-text, .healed-to-full-text {
     font-size: 1.5rem;
 }
+
+.proceed-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: black 2px solid;
+    border-radius: 16px;
+    cursor: pointer;
+    background-color: #7a0000;
+    transition: background-color 0.05s ease, transform 0.1s ease;
+}
+
+.proceed-button-container:disabled {
+    pointer-events: none;
+}
+
+.proceed-button-container:hover {
+    background-color: #6a0000;
+}
+
+.proceed-button-container:disabled:hover {
+    background-color: #7a0000;
+}
+
+.proceed-button-container:active {
+    background-color: #620000;
+    transform: scale(0.95);
+}
+
+.proceed-button-container:disabled:active {
+    background-color: #7a0000;
+    transform: none;
+}
+
+.proceed-button-text {
+    color: white;
+    font-size: 36px;
+    font-family: "Ubuntu Sans Mono";
+}

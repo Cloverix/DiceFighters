@@ -15,6 +15,7 @@ export function RollButton({onClick, disabled, width = 192, height = 64, ...prop
             onClick={onClick}
             disabled={disabled}
             style={{
+                ...props.style,
                 width: `${width}px`,
                 height: `${height}px`
             }}

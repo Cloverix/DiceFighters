@@ -41,7 +41,10 @@ function gameLoopReducer(
       return unequipSpell(prevState, action.spell, action.diceIndex, action.slot);
     }
     case "addToInventory": {
-      return new GameStateBuilder(prevState).addSpellToInventory(action.spell).build();
+      return new GameStateBuilder(prevState)
+      .addSpellToInventory(action.spell)
+      .setBattleStatus('ongoing')
+      .build();
     }
   }
 }

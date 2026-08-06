@@ -23,10 +23,13 @@ export interface GameState {
         player: Map<number, number>,
         enemy: Map<number, number>
     }
+    battleStatus: BattleStatus,
     logs: string[]
 }
 
-export type Target = 'player' | 'enemy'
+export type Target = 'player' | 'enemy';
+
+export type BattleStatus = 'ongoing' | 'playerWon' | 'enemyWon';
 
 export class GameStateBuilder {
     private readonly state: GameState
@@ -255,6 +258,12 @@ export class GameStateBuilder {
             ...newState.currentRollResults,
             [target]: rollResults
         };
+        return new GameStateBuilder(newState);
+    }
+
+    setBattleStatus(status: BattleStatus): GameStateBuilder {
+        const newState: GameState = {...this.state};
+        newState.battleStatus = status;
         return new GameStateBuilder(newState);
     }
 

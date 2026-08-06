@@ -49,6 +49,7 @@ function App() {
     const enemy = new EnemyBuilder(1)
         .setDices(enemyDices)
         .setSprite(goblinSprite)
+        .setHp(1)
         .build();
 
     const gameState: GameState = {

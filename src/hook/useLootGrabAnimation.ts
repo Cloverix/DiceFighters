@@ -51,6 +51,7 @@ export function useLootGrabAnimation(
 
         animationTimeoutId.current = setTimeout(() => {
             setInventoryScale(1.15);
+            console.log('scale set to 1.15');
             setLootOpacity(0);
 
             if (onEndAnimation) {
@@ -59,6 +60,7 @@ export function useLootGrabAnimation(
 
             innerTimeoutId.current = setTimeout(() => {
                 setInventoryScale(1);
+                console.log('scale set to 1');
             }, 150)
         }, animationTimeSec * 1000);
     }, [animationTimeSec, inventoryButtonEl, lootEl, onEndAnimation]);

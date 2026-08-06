@@ -35,5 +35,13 @@ export function applySpellResult(spellResult: SpellResult, gameState: GameState)
         }
     }
 
-    return builder.build();
+    const updatedState: GameState = builder.build();
+    if (updatedState.player.hp <= 0) {
+        return new GameStateBuilder(updatedState).setBattleStatus('enemyWon').build();
+    }
+    else if (updatedState.enemy.hp <= 0) {
+        console.log('player won');
+        return new GameStateBuilder(updatedState).setBattleStatus('playerWon').build();
+    }
+    return updatedState;
 }
